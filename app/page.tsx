@@ -5,6 +5,7 @@ import { ArrowRight, Coffee, Zap, Heart, PackageOpen } from "lucide-react";
 import Link from "next/link";
 import FloatingPaws from "./components/FloatingPaws";
 import CatCard from "./components/CatCard";
+import DecorativeCatCard from "./components/DecorativeCatCard";
 import StatCounter from "./components/StatCounter";
 import { cats } from "@/lib/cats-data";
 
@@ -14,8 +15,30 @@ export default function Home() {
       <FloatingPaws />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-        <div className="max-w-6xl mx-auto text-center z-10">
+      <section className="relative min-h-screen flex items-start justify-center px-6 overflow-hidden pt-32">
+        {/* Left Cat Card - Decorative */}
+        <motion.div
+          initial={{ opacity: 0, x: -100, rotate: -15 }}
+          animate={{ opacity: 1, x: 0, rotate: -15 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="absolute left-[calc(50%-650px)] 2xl:left-[calc(50%-750px)] top-28 w-80 hidden lg:block"
+          style={{ zIndex: 1 }}
+        >
+          <DecorativeCatCard cat={cats[0]} index={0} />
+        </motion.div>
+
+        {/* Right Cat Card - Decorative */}
+        <motion.div
+          initial={{ opacity: 0, x: 100, rotate: 25 }}
+          animate={{ opacity: 1, x: 0, rotate: 25 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          className="absolute right-[calc(50%-630px)] 2xl:right-[calc(50%-720px)] top-48 w-80 hidden lg:block"
+          style={{ zIndex: 1 }}
+        >
+          <DecorativeCatCard cat={cats[1]} index={1} />
+        </motion.div>
+
+        <div className="max-w-6xl mx-auto text-center z-10 relative">
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -32,7 +55,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-2xl md:text-3xl text-gray-700 mb-12 font-light"
+            className="text-2xl md:text-3xl text-gray-700 mb-12 font-medium"
           >
             Where every day is a purr-fect adventure
           </motion.p>
@@ -60,13 +83,15 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Decorative Elements */}
+        {/* Bottom Cat Card - Horizontal - Decorative */}
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          initial={{ opacity: 0, y: 50, rotate: -15 }}
+          animate={{ opacity: 1, y: 0, rotate: -15 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 w-96 hidden md:block"
+          style={{ zIndex: 1 }}
         >
-          <div className="text-6xl">🐾</div>
+          <DecorativeCatCard cat={cats[2]} index={2} variant="horizontal" />
         </motion.div>
       </section>
 

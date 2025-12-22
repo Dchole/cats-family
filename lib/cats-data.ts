@@ -25,7 +25,8 @@ export const cats: Cat[] = [
       "Napping in sunbeams"
     ],
     quirk: "Does a little hop before pouncing",
-    image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800&h=800&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800&h=800&fit=crop",
     funFact: "Once caught a fly mid-air!"
   },
   {
@@ -41,7 +42,8 @@ export const cats: Cat[] = [
       "Warm laps"
     ],
     quirk: "Meows in response to conversations",
-    image: "https://images.unsplash.com/photo-1513245543132-31f507417b26?w=800&h=800&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1513245543132-31f507417b26?w=800&h=800&fit=crop",
     funFact: "Knows exactly when dinner time is, down to the minute"
   },
   {
@@ -57,7 +59,8 @@ export const cats: Cat[] = [
       "Nighttime zoomies"
     ],
     quirk: "Appears out of nowhere when you open a can",
-    image: "https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=800&h=800&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=800&h=800&fit=crop",
     funFact: "Can squeeze into impossibly small spaces"
   }
 ];
