@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Cat } from "@/lib/cats-data";
 import { Sparkles } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CatCardProps {
   cat: Cat;
@@ -23,26 +24,36 @@ export default function CatCard({ cat, index }: CatCardProps) {
       }}
     >
       <Link href={`/cats/${cat.id}`}>
-        <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden p-6 border-4 border-orange-200 hover:border-pink-300 transition-colors cursor-pointer group">
+        <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden border-4 border-orange-200 hover:border-pink-300 transition-colors cursor-pointer group">
           <motion.div
-            className="absolute top-4 right-4 text-yellow-400"
+            className="absolute top-4 right-4 text-yellow-400 z-10"
             animate={{ rotate: [0, 10, 0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             <Sparkles size={24} />
           </motion.div>
 
-          <div className="w-32 h-32 bg-gradient-to-br from-orange-200 to-pink-200 rounded-full mx-auto mb-4 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform">
-            🐱
+          {/* Instagram-style image */}
+          <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-orange-100 to-pink-100">
+            <Image
+              src={cat.image}
+              alt={cat.name}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+            />
           </div>
 
-          <h3 className="text-2xl font-bold text-center mb-2 text-orange-600">
-            {cat.name}
-          </h3>
+          {/* White bottom section */}
+          <div className="bg-white p-6">
+            <h3 className="text-2xl font-bold text-center mb-2 text-orange-600">
+              {cat.name}
+            </h3>
 
-          <p className="text-center text-gray-600 italic text-sm">
-            "{cat.quirk}"
-          </p>
+            <p className="text-center text-gray-600 italic text-sm">
+              "{cat.quirk}"
+            </p>
+          </div>
         </div>
       </Link>
     </motion.div>
