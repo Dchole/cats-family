@@ -39,7 +39,7 @@ export default function Footer() {
                 >
                   <PawPrint size={32} fill="currentColor" />
                 </motion.div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent font-display">
+                <span className="text-2xl font-bold text-orange-500 font-display">
                   Feline Squad
                 </span>
               </div>
@@ -73,7 +73,7 @@ export default function Footer() {
 
           {/* Social Links */}
           <div>
-            <h3 className="text-xl font-bold text-pink-600 mb-4 font-display">
+            <h3 className="text-xl font-bold text-orange-600 mb-4 font-display">
               Follow Our Cats
             </h3>
             <div className="space-y-3">

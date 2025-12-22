@@ -64,7 +64,7 @@ export default function Navigation() {
                 >
                   <PawPrint size={32} fill="currentColor" />
                 </motion.div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent font-display">
+                <span className="text-2xl font-bold text-orange-500 font-display">
                   Feline Squad
                 </span>
               </div>
@@ -85,11 +85,11 @@ export default function Navigation() {
                       whileTap={{ scale: 0.95 }}
                       className="font-medium cursor-pointer relative px-4 py-2 group"
                     >
-                      {/* Gradient pill background for active page */}
+                      {/* Orange pill background for active page */}
                       {isActive && (
                         <motion.div
                           layoutId="activeTab"
-                          className="absolute inset-0 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full"
+                          className="absolute inset-0 bg-orange-500 rounded-full"
                           transition={{
                             type: "spring",
                             bounce: 0.2,
