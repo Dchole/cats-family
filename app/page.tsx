@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Coffee, Zap, Heart, PackageOpen } from "lucide-react";
 import Link from "next/link";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import FloatingPaws from "./components/FloatingPaws";
 import CatCard from "./components/CatCard";
 import DecorativeCatCard from "./components/DecorativeCatCard";
@@ -182,6 +183,8 @@ export default function Home() {
           <p className="text-xl text-gray-500 mt-6">— Terry Pratchett</p>
         </motion.div>
       </section>
+
+      <Footer />
     </div>
   );
 }
