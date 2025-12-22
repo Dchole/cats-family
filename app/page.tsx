@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Coffee, Zap, Heart, PackageOpen } from "lucide-react";
 import Link from "next/link";
+import Navigation from "./components/Navigation";
 import FloatingPaws from "./components/FloatingPaws";
 import CatCard from "./components/CatCard";
 import DecorativeCatCard from "./components/DecorativeCatCard";
@@ -12,6 +13,7 @@ import { cats } from "@/lib/cats-data";
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <Navigation />
       <FloatingPaws />
 
       {/* Hero Section */}
