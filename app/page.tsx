@@ -9,13 +9,19 @@ import FloatingPaws from "./components/FloatingPaws";
 import CatCard from "./components/CatCard";
 import DecorativeCatCard from "./components/DecorativeCatCard";
 import StatCounter from "./components/StatCounter";
+import CatOfTheDay from "./components/CatOfTheDay";
+import MouseTrailPaws from "./components/MouseTrailPaws";
 import { cats } from "@/lib/cats-data";
 
 export default function Home() {
+  // Select a random cat for Cat of the Day (or use day-based rotation)
+  const todaysCat = cats[new Date().getDate() % cats.length];
+
   return (
     <div className="min-h-screen">
       <Navigation />
       <FloatingPaws />
+      <MouseTrailPaws />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-start justify-center px-6 overflow-hidden pt-32">
@@ -98,13 +104,17 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Cat of the Day */}
+      <CatOfTheDay cat={todaysCat} />
+
       {/* Featured Cats Section */}
       <section className="py-20 px-6 bg-gradient-to-b from-transparent to-orange-50">
         <div className="max-w-6xl mx-auto">
           <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, rotate: -5 }}
+            whileInView={{ opacity: 1, rotate: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
             className="text-5xl md:text-6xl font-bold text-center mb-16 text-orange-600"
           >
             Our Adorable Residents
