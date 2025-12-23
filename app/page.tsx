@@ -12,6 +12,7 @@ import StatCounter from "./components/StatCounter";
 import CatOfTheDay from "./components/CatOfTheDay";
 import MouseTrailPaws from "./components/MouseTrailPaws";
 import LatestAdventures from "./components/LatestAdventures";
+import AboutStory from "./components/AboutStory";
 import { cats } from "@/lib/cats-data";
 
 export default function Home() {
@@ -197,6 +198,9 @@ export default function Home() {
 
       {/* Latest Adventures Section */}
       <LatestAdventures />
+
+      {/* About/Story Section */}
+      <AboutStory />
 
       <Footer />
     </div>
