@@ -32,11 +32,19 @@ export default function Navigation() {
     }
   };
 
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const contactSection = document.getElementById("contact-section");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about", onClick: handleAboutClick },
     { name: "Family Tree", href: "/cats" },
-    { name: "Contact", href: "/contact" }
+    { name: "Contact", href: "/#contact", onClick: handleContactClick }
   ];
 
   return (

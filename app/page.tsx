@@ -13,6 +13,7 @@ import CatOfTheDay from "./components/CatOfTheDay";
 import MouseTrailPaws from "./components/MouseTrailPaws";
 import LatestAdventures from "./components/LatestAdventures";
 import AboutStory from "./components/AboutStory";
+import ContactAdoption from "./components/ContactAdoption";
 import { cats } from "@/lib/cats-data";
 
 export default function Home() {
@@ -201,6 +202,9 @@ export default function Home() {
 
       {/* Latest Adventures Section */}
       <LatestAdventures />
+
+      {/* Contact/Adoption Section */}
+      <ContactAdoption />
 
       <Footer />
     </div>
