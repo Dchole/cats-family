@@ -1,29 +1,47 @@
 "use client";
 
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { PawPrint } from "lucide-react";
 
 export default function FloatingPaws() {
-  const paws = Array.from({ length: 6 });
+  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
+
+  useEffect(() => {
+    setDimensions({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+
+  // Generate random values once
+  const pawsData = useMemo(
+    () =>
+      Array.from({ length: 6 }).map(() => ({
+        initialX: Math.random() * dimensions.width,
+        initialRotate: Math.random() * 360,
+        animateRotate: Math.random() * 360 + 360,
+        animateX: Math.random() * dimensions.width,
+        duration: 15 + Math.random() * 10
+      })),
+    [dimensions.width]
+  );
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {paws.map((_, i) => (
+      {pawsData.map((paw, i) => (
         <motion.div
           key={i}
           className="absolute text-orange-300/20"
           initial={{
-            x: Math.random() * window.innerWidth,
+            x: paw.initialX,
             y: -50,
-            rotate: Math.random() * 360
+            rotate: paw.initialRotate
           }}
           animate={{
-            y: window.innerHeight + 50,
-            rotate: Math.random() * 360 + 360,
-            x: Math.random() * window.innerWidth
+            y: dimensions.height + 50,
+            rotate: paw.animateRotate,
+            x: paw.animateX
           }}
           transition={{
-            duration: 15 + Math.random() * 10,
+            duration: paw.duration,
             repeat: Infinity,
             delay: i * 2,
             ease: "linear"
