@@ -89,19 +89,41 @@ const adventures: Adventure[] = [
 
 function StoryCard({
   adventure,
-  index
+  index,
+  onComplete,
+  isActive,
+  onOpenFullscreen,
+  onCloseFullscreen
 }: {
   adventure: Adventure;
   index: number;
+  onComplete: () => void;
+  isActive: boolean;
+  onOpenFullscreen: () => void;
+  onCloseFullscreen: () => void;
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true); // Start paused
+  const [isCardHovered, setIsCardHovered] = useState(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
 
   const duration = 5000; // 5 seconds per slide
 
+  // Reset slide when becoming active
   useEffect(() => {
-    if (isPaused) return;
+    if (isActive) {
+      setCurrentSlide(0);
+      setProgress(0);
+    }
+  }, [isActive]);
+
+  useEffect(() => {
+    // In fullscreen: always play unless mouse is down
+    // Not in fullscreen: play only if card is hovered
+    const shouldPlay = isActive ? !isMouseDown : isCardHovered;
+
+    if (!shouldPlay) return;
 
     const startTime = Date.now();
     const interval = setInterval(() => {
@@ -114,9 +136,15 @@ function StoryCard({
           setCurrentSlide(currentSlide + 1);
           setProgress(0);
         } else {
-          // Loop back to start
-          setCurrentSlide(0);
-          setProgress(0);
+          // If in fullscreen and last slide, move to next card
+          if (isActive) {
+            onComplete();
+            setProgress(0);
+          } else {
+            // Loop back to start in card view
+            setCurrentSlide(0);
+            setProgress(0);
+          }
         }
       } else {
         setProgress(newProgress);
@@ -124,27 +152,63 @@ function StoryCard({
     }, 50);
 
     return () => clearInterval(interval);
-  }, [currentSlide, isPaused, adventure.media.length]);
+  }, [
+    currentSlide,
+    adventure.media.length,
+    isCardHovered,
+    isActive,
+    isMouseDown,
+    onComplete
+  ]);
 
   const goToSlide = (slideIndex: number) => {
     setCurrentSlide(slideIndex);
     setProgress(0);
   };
 
+  const goToNextSlide = () => {
+    if (currentSlide < adventure.media.length - 1) {
+      setCurrentSlide(currentSlide + 1);
+      setProgress(0);
+    } else {
+      // Move to next card's story
+      onComplete();
+    }
+  };
+
+  const openFullscreen = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onOpenFullscreen();
+  };
+
+  const closeFullscreen = () => {
+    onCloseFullscreen();
+  };
+
+  const handleCardMouseEnter = () => {
+    setIsCardHovered(true);
+  };
+
+  const handleCardMouseLeave = () => {
+    setIsCardHovered(false);
+    setProgress(0);
+  };
+
   const currentMedia = adventure.media[currentSlide];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-    >
-      <Link href={`/cats/${adventure.catId}`}>
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.1 }}
+      >
         <motion.div
           whileHover={{ y: -8, scale: 1.02 }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+          onMouseEnter={handleCardMouseEnter}
+          onMouseLeave={handleCardMouseLeave}
+          onClick={openFullscreen}
           className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow cursor-pointer"
         >
           {/* Story Media with Progress Bars */}
@@ -152,12 +216,8 @@ function StoryCard({
             {/* Progress Indicators */}
             <div className="absolute top-2 left-2 right-2 z-20 flex gap-1">
               {adventure.media.map((_, idx) => (
-                <button
+                <div
                   key={idx}
-                  onClick={e => {
-                    e.preventDefault();
-                    goToSlide(idx);
-                  }}
                   className="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"
                 >
                   <motion.div
@@ -173,7 +233,7 @@ function StoryCard({
                     }}
                     transition={{ duration: 0.1 }}
                   />
-                </button>
+                </div>
               ))}
             </div>
 
@@ -233,12 +293,149 @@ function StoryCard({
             </div>
           </div>
         </motion.div>
-      </Link>
-    </motion.div>
+      </motion.div>
+
+      {/* Fullscreen Modal */}
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={e => {
+              // Normal click advances slide
+              goToNextSlide();
+            }}
+            onMouseDown={e => {
+              e.preventDefault();
+              setIsMouseDown(true);
+            }}
+            onMouseUp={e => {
+              e.preventDefault();
+              setIsMouseDown(false);
+            }}
+            onMouseLeave={() => setIsMouseDown(false)}
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="relative max-w-6xl w-full h-[80vh]"
+            >
+              {/* Close button */}
+              <button
+                onClick={e => {
+                  e.stopPropagation();
+                  closeFullscreen();
+                }}
+                className="absolute top-4 right-4 z-30 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
+              >
+                ✕
+              </button>
+
+              {/* Progress Indicators */}
+              <div className="absolute top-4 left-4 right-20 z-20 flex gap-2">
+                {adventure.media.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={e => {
+                      e.stopPropagation();
+                      goToSlide(idx);
+                    }}
+                    className="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden"
+                  >
+                    <motion.div
+                      className="h-full bg-white rounded-full"
+                      animate={{
+                        width:
+                          idx === currentSlide
+                            ? `${progress}%`
+                            : idx < currentSlide
+                            ? "100%"
+                            : "0%"
+                      }}
+                      transition={{ duration: 0.1 }}
+                    />
+                  </button>
+                ))}
+              </div>
+
+              {/* Fullscreen Media */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="w-full h-full flex items-center justify-center"
+                >
+                  {currentMedia.type === "image" ? (
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={currentMedia.url}
+                        alt={adventure.title}
+                        fill
+                        className="object-contain"
+                        sizes="100vw"
+                      />
+                    </div>
+                  ) : (
+                    <video
+                      src={currentMedia.url}
+                      className="max-w-full max-h-full object-contain"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Adventure Info */}
+              <div
+                className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm text-white p-4 rounded-2xl"
+                onClick={e => e.stopPropagation()}
+              >
+                <h3 className="text-2xl font-bold mb-2">{adventure.title}</h3>
+                <div className="flex items-center gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <Calendar size={16} />
+                    <span>{adventure.date}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin size={16} />
+                    <span>{adventure.location}</span>
+                  </div>
+                  <div className="bg-orange-500 px-3 py-1 rounded-full font-semibold">
+                    {adventure.catName}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
 export default function LatestAdventures() {
+  const [currentFullscreenIndex, setCurrentFullscreenIndex] = useState<
+    number | null
+  >(null);
+
+  const handleStoryComplete = (currentIndex: number) => {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < adventures.length) {
+      setCurrentFullscreenIndex(nextIndex);
+    } else {
+      // Reached the end, close fullscreen
+      setCurrentFullscreenIndex(null);
+    }
+  };
+
   return (
     <section className="py-20 px-6 bg-gradient-to-b from-pink-50 to-purple-50">
       <div className="max-w-6xl mx-auto">
@@ -258,7 +455,15 @@ export default function LatestAdventures() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {adventures.map((adventure, index) => (
-            <StoryCard key={adventure.id} adventure={adventure} index={index} />
+            <StoryCard
+              key={adventure.id}
+              adventure={adventure}
+              index={index}
+              isActive={currentFullscreenIndex === index}
+              onComplete={() => handleStoryComplete(index)}
+              onOpenFullscreen={() => setCurrentFullscreenIndex(index)}
+              onCloseFullscreen={() => setCurrentFullscreenIndex(null)}
+            />
           ))}
         </div>
 
