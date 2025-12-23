@@ -109,6 +109,9 @@ export default function Home() {
       {/* Cat of the Day */}
       <CatOfTheDay cat={todaysCat} />
 
+      {/* About/Story Section */}
+      <AboutStory />
+
       {/* Featured Cats Section */}
       <section className="py-20 px-6 bg-gradient-to-b from-transparent to-orange-50">
         <div className="max-w-6xl mx-auto">
@@ -198,9 +201,6 @@ export default function Home() {
 
       {/* Latest Adventures Section */}
       <LatestAdventures />
-
-      {/* About/Story Section */}
-      <AboutStory />
 
       <Footer />
     </div>
