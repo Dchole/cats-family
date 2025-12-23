@@ -24,9 +24,17 @@ export default function Navigation() {
     ["rgba(255, 140, 66, 0)", "rgba(255, 140, 66, 0.2)"]
   );
 
+  const handleAboutClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const aboutSection = document.getElementById("about-section");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
+    { name: "About", href: "/#about", onClick: handleAboutClick },
     { name: "Family Tree", href: "/cats" },
     { name: "Contact", href: "/contact" }
   ];
@@ -76,7 +84,7 @@ export default function Navigation() {
                 const isActive = pathname === link.href;
 
                 return (
-                  <Link key={link.name} href={link.href}>
+                  <Link key={link.name} href={link.href} onClick={link.onClick}>
                     <motion.div
                       initial={{ opacity: 0, y: -20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -140,10 +148,16 @@ export default function Navigation() {
       >
         <div className="px-6 py-6 space-y-4">
           {navLinks.map(link => (
-            <Link key={link.name} href={link.href}>
+            <Link
+              key={link.name}
+              href={link.href}
+              onClick={e => {
+                if (link.onClick) link.onClick(e);
+                setMobileMenuOpen(false);
+              }}
+            >
               <motion.div
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setMobileMenuOpen(false)}
                 className="block text-lg font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
               >
                 {link.name}
