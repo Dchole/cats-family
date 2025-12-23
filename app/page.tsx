@@ -11,6 +11,7 @@ import DecorativeCatCard from "./components/DecorativeCatCard";
 import StatCounter from "./components/StatCounter";
 import CatOfTheDay from "./components/CatOfTheDay";
 import MouseTrailPaws from "./components/MouseTrailPaws";
+import LatestAdventures from "./components/LatestAdventures";
 import { cats } from "@/lib/cats-data";
 
 export default function Home() {
@@ -193,6 +194,9 @@ export default function Home() {
           <p className="text-xl text-gray-500 mt-6">— Terry Pratchett</p>
         </motion.div>
       </section>
+
+      {/* Latest Adventures Section */}
+      <LatestAdventures />
 
       <Footer />
     </div>
