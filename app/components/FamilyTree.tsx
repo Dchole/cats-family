@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { cats, Cat } from "@/lib/cats-data";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "lucide-react";
 
 interface FamilyTreeProps {
   matchingCats: Set<string>;
@@ -118,17 +117,6 @@ export default function FamilyTree({
               <p className="text-xs text-gray-500">{node.cat.color}</p>
             </div>
           </div>
-
-          {/* Match Indicator */}
-          {isMatch && matchingCats.size > 0 && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full p-2 shadow-lg"
-            >
-              <Heart size={16} fill="white" className="text-white" />
-            </motion.div>
-          )}
         </motion.div>
       </Link>
     );
@@ -144,35 +132,18 @@ export default function FamilyTree({
 
     return (
       <div key={node.cat.id} className="flex flex-col items-center">
-        {/* Connector Line from Parent (above card) */}
-        {visible && node.cat.motherId && (
-          <div className="relative mb-3">
-            <svg width="2" height="20" className="mx-auto">
-              <line
-                x1="1"
-                y1="0"
-                x2="1"
-                y2="20"
-                stroke="#ff8c42"
-                strokeWidth="2"
-                strokeDasharray="5,5"
-              />
-            </svg>
-          </div>
-        )}
-
         {/* Cat Card */}
-        {visible && <div className="w-48 mb-3">{renderCatCard(node)}</div>}
+        {visible && <div className="w-48">{renderCatCard(node)}</div>}
 
         {/* Connector Line to Children (below card) */}
         {visible && visibleChildren.length > 0 && (
-          <div className="relative mb-3">
-            <svg width="2" height="20" className="mx-auto">
+          <div className="relative my-4">
+            <svg width="2" height="24" className="mx-auto">
               <line
                 x1="1"
                 y1="0"
                 x2="1"
-                y2="20"
+                y2="24"
                 stroke="#ff8c42"
                 strokeWidth="2"
                 strokeDasharray="5,5"
@@ -189,9 +160,9 @@ export default function FamilyTree({
               <div className="absolute top-0 left-0 right-0 flex justify-center">
                 <svg
                   width={visibleChildren.length * 208 - 16}
-                  height="36"
+                  height="28"
                   className="absolute"
-                  style={{ top: "-36px" }}
+                  style={{ top: "-28px" }}
                 >
                   <line
                     x1={96}
@@ -207,7 +178,7 @@ export default function FamilyTree({
                       x1={96 + idx * 208}
                       y1="0"
                       x2={96 + idx * 208}
-                      y2="36"
+                      y2="28"
                       stroke="#ff8c42"
                       strokeWidth="2"
                       strokeDasharray="5,5"
