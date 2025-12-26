@@ -15,7 +15,13 @@ interface TreeNode {
   cat: Cat;
   children: TreeNode[];
   level: number;
+  x: number; // x position for this node
+  parentX: number | null; // x position of parent for connection lines
 }
+
+const CARD_WIDTH = 192; // w-48 = 192px
+const CARD_GAP = 16; // gap-4 = 16px
+const CARD_SPACING = CARD_WIDTH + CARD_GAP;
 
 export default function FamilyTree({
   matchingCats,
@@ -26,7 +32,10 @@ export default function FamilyTree({
     // Find root cats (no mother or father)
     const roots = cats.filter(cat => !cat.motherId && !cat.fatherId);
 
-    const buildTree = (cat: Cat, level: number = 0): TreeNode => {
+    const buildTree = (
+      cat: Cat,
+      level: number = 0
+    ): Omit<TreeNode, "x" | "parentX"> => {
       const children = cats
         .filter(c => c.motherId === cat.id || c.fatherId === cat.id)
         .map(child => buildTree(child, level + 1));
@@ -53,6 +62,93 @@ export default function FamilyTree({
       isMatch,
       isContext: !isMatch && isContext
     };
+  };
+
+  // Calculate x positions for all nodes in the tree
+  const calculatePositions = (
+    node: Omit<TreeNode, "x" | "parentX">,
+    parentX: number | null = null
+  ): TreeNode => {
+    // Filter visible children
+    const visibleChildrenData = node.children.filter(
+      child => getCatVisibility(child.cat.id).visible
+    );
+
+    // Recursively calculate positions for children
+    let childStartX = 0;
+    const positionedChildren = visibleChildrenData.map((child, idx) => {
+      const positionedChild = calculatePositions(child, 0); // temp parentX
+      const result = { ...positionedChild, x: childStartX };
+      childStartX += getSubtreeWidth(positionedChild);
+      return result;
+    });
+
+    // Calculate this node's x position
+    let x: number;
+    if (positionedChildren.length === 0) {
+      // Leaf node: use x=0, will be adjusted relative to siblings
+      x = 0;
+    } else {
+      // Parent node: center above children
+      const firstChildX = positionedChildren[0].x;
+      const lastChildX = positionedChildren[positionedChildren.length - 1].x;
+      x = (firstChildX + lastChildX) / 2;
+    }
+
+    // Update children's parentX
+    const finalChildren = positionedChildren.map(child => ({
+      ...child,
+      parentX: x
+    }));
+
+    return {
+      cat: node.cat,
+      children: finalChildren,
+      level: node.level,
+      x,
+      parentX
+    };
+  };
+
+  // Calculate total width of a subtree
+  const getSubtreeWidth = (node: TreeNode): number => {
+    const { visible } = getCatVisibility(node.cat.id);
+    if (!visible) return 0;
+
+    const visibleChildren = node.children.filter(
+      child => getCatVisibility(child.cat.id).visible
+    );
+
+    if (visibleChildren.length === 0) {
+      return CARD_SPACING;
+    }
+
+    const childrenWidth = visibleChildren.reduce(
+      (sum, child) => sum + getSubtreeWidth(child),
+      0
+    );
+
+    return Math.max(CARD_SPACING, childrenWidth);
+  };
+
+  // Flatten tree into levels for rendering
+  const flattenByLevel = (node: TreeNode): Map<number, TreeNode[]> => {
+    const levels = new Map<number, TreeNode[]>();
+
+    const traverse = (n: TreeNode) => {
+      const { visible } = getCatVisibility(n.cat.id);
+      if (!visible) return;
+
+      if (!levels.has(n.level)) {
+        levels.set(n.level, []);
+      }
+      levels.get(n.level)!.push(n);
+
+      n.children.forEach(child => traverse(child));
+    };
+
+    traverse(node);
+    return levels;
   };
 
   const renderCatCard = (node: TreeNode) => {
@@ -122,80 +218,129 @@ export default function FamilyTree({
     );
   };
 
-  const renderTree = (node: TreeNode, isLast: boolean = false) => {
-    const { visible } = getCatVisibility(node.cat.id);
-    const visibleChildren = node.children.filter(
-      child => getCatVisibility(child.cat.id).visible
-    );
+  const renderTreeLayers = (rootNode: Omit<TreeNode, "x" | "parentX">) => {
+    const { visible } = getCatVisibility(rootNode.cat.id);
+    if (!visible) return null;
 
-    if (!visible && visibleChildren.length === 0) return null;
+    // Calculate positions
+    const positionedTree = calculatePositions(rootNode);
+
+    // Flatten into levels
+    const levels = flattenByLevel(positionedTree);
+    const maxLevel = Math.max(...levels.keys());
+
+    // Calculate total width
+    const totalWidth = getSubtreeWidth(positionedTree);
 
     return (
-      <div key={node.cat.id} className="flex flex-col items-center">
-        {/* Cat Card */}
-        {visible && <div className="w-48">{renderCatCard(node)}</div>}
-
-        {/* Connector Line to Children (below card) */}
-        {visible && visibleChildren.length > 0 && (
-          <div className="relative my-4">
-            <svg width="2" height="24" className="mx-auto">
-              <line
-                x1="1"
-                y1="0"
-                x2="1"
-                y2="24"
-                stroke="#ff8c42"
-                strokeWidth="2"
-                strokeDasharray="5,5"
-              />
-            </svg>
+      <div
+        className="relative"
+        style={{
+          width: `${totalWidth}px`,
+          minHeight: `${(maxLevel + 1) * 220}px`
+        }}
+      >
+        {/* Render each level */}
+        {Array.from(levels.entries()).map(([level, nodes]) => (
+          <div
+            key={level}
+            className="absolute w-full"
+            style={{ top: `${level * 220}px` }}
+          >
+            {nodes.map(node => (
+              <div
+                key={node.cat.id}
+                className="absolute"
+                style={{
+                  left: `${node.x}px`,
+                  width: `${CARD_WIDTH}px`
+                }}
+              >
+                {renderCatCard(node)}
+              </div>
+            ))}
           </div>
-        )}
+        ))}
 
-        {/* Children */}
-        {visibleChildren.length > 0 && (
-          <div className="relative">
-            {/* Horizontal connector line for multiple children */}
-            {visibleChildren.length > 1 && (
-              <div className="absolute top-0 left-0 right-0 flex justify-center">
-                <svg
-                  width={visibleChildren.length * 208 - 16}
-                  height="28"
-                  className="absolute"
-                  style={{ top: "-28px" }}
-                >
+        {/* Render connection lines */}
+        <svg
+          className="absolute top-0 left-0 pointer-events-none"
+          width={totalWidth}
+          height={(maxLevel + 1) * 220}
+        >
+          {Array.from(levels.entries()).map(([level, nodes]) =>
+            nodes.map(node => {
+              const visibleChildren = node.children.filter(
+                child => getCatVisibility(child.cat.id).visible
+              );
+
+              if (visibleChildren.length === 0) return null;
+
+              const parentCenterX = node.x + CARD_WIDTH / 2;
+              const parentBottomY = level * 220 + 180; // Card height ~180px
+
+              return (
+                <g key={node.cat.id}>
+                  {/* Vertical line from parent */}
                   <line
-                    x1={96}
-                    y1="0"
-                    x2={(visibleChildren.length - 1) * 208 + 96}
-                    y2="0"
+                    x1={parentCenterX}
+                    y1={parentBottomY}
+                    x2={parentCenterX}
+                    y2={parentBottomY + 24}
                     stroke="#ff8c42"
                     strokeWidth="2"
+                    strokeDasharray="5,5"
                   />
-                  {visibleChildren.map((_, idx) => (
+
+                  {/* Horizontal line connecting children if multiple */}
+                  {visibleChildren.length > 1 && (
+                    <>
+                      <line
+                        x1={visibleChildren[0].x + CARD_WIDTH / 2}
+                        y1={parentBottomY + 24}
+                        x2={
+                          visibleChildren[visibleChildren.length - 1].x +
+                          CARD_WIDTH / 2
+                        }
+                        y2={parentBottomY + 24}
+                        stroke="#ff8c42"
+                        strokeWidth="2"
+                      />
+                      {visibleChildren.map(child => {
+                        const childCenterX = child.x + CARD_WIDTH / 2;
+                        return (
+                          <line
+                            key={child.cat.id}
+                            x1={childCenterX}
+                            y1={parentBottomY + 24}
+                            x2={childCenterX}
+                            y2={parentBottomY + 40}
+                            stroke="#ff8c42"
+                            strokeWidth="2"
+                            strokeDasharray="5,5"
+                          />
+                        );
+                      })}
+                    </>
+                  )}
+
+                  {/* Single child - direct vertical line */}
+                  {visibleChildren.length === 1 && (
                     <line
-                      key={idx}
-                      x1={96 + idx * 208}
-                      y1="0"
-                      x2={96 + idx * 208}
-                      y2="28"
+                      x1={parentCenterX}
+                      y1={parentBottomY + 24}
+                      x2={visibleChildren[0].x + CARD_WIDTH / 2}
+                      y2={(level + 1) * 220}
                       stroke="#ff8c42"
                       strokeWidth="2"
                       strokeDasharray="5,5"
                     />
-                  ))}
-                </svg>
-              </div>
-            )}
-
-            {/* Children cards */}
-            <div className="flex gap-4 justify-center">
-              {visibleChildren.map((child, idx) =>
-                renderTree(child, idx === visibleChildren.length - 1)
-              )}
-            </div>
-          </div>
-        )}
+                  )}
+                </g>
+              );
+            })
+          )}
+        </svg>
       </div>
     );
   };
@@ -214,7 +359,7 @@ export default function FamilyTree({
           </h2>
           <div className="overflow-x-auto pb-6">
             <div className="min-w-max flex justify-center">
-              {renderTree(tree)}
+              {renderTreeLayers(tree)}
             </div>
           </div>
         </motion.div>
