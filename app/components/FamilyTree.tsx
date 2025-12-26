@@ -231,13 +231,15 @@ export default function FamilyTree({
 
     // Calculate total width
     const totalWidth = getSubtreeWidth(positionedTree);
+    const LEVEL_HEIGHT = 260; // Increased spacing between generations
+    const CARD_HEIGHT = 190; // Card height with small buffer to prevent line overlap
 
     return (
       <div
         className="relative"
         style={{
           width: `${totalWidth}px`,
-          minHeight: `${(maxLevel + 1) * 220}px`
+          minHeight: `${(maxLevel + 1) * LEVEL_HEIGHT}px`
         }}
       >
         {/* Render each level */}
@@ -245,7 +247,7 @@ export default function FamilyTree({
           <div
             key={level}
             className="absolute w-full"
-            style={{ top: `${level * 220}px` }}
+            style={{ top: `${level * LEVEL_HEIGHT}px` }}
           >
             {nodes.map(node => (
               <div
@@ -266,7 +268,7 @@ export default function FamilyTree({
         <svg
           className="absolute top-0 left-0 pointer-events-none"
           width={totalWidth}
-          height={(maxLevel + 1) * 220}
+          height={(maxLevel + 1) * LEVEL_HEIGHT}
         >
           {Array.from(levels.entries()).map(([level, nodes]) =>
             nodes.map(node => {
@@ -277,7 +279,11 @@ export default function FamilyTree({
               if (visibleChildren.length === 0) return null;
 
               const parentCenterX = node.x + CARD_WIDTH / 2;
-              const parentBottomY = level * 220 + 180; // Card height ~180px
+              const parentBottomY = level * LEVEL_HEIGHT + CARD_HEIGHT;
+
+              const childTopY = (level + 1) * LEVEL_HEIGHT;
+              const connectorY =
+                parentBottomY + (childTopY - parentBottomY) / 2;
 
               return (
                 <g key={node.cat.id}>
@@ -286,7 +292,7 @@ export default function FamilyTree({
                     x1={parentCenterX}
                     y1={parentBottomY}
                     x2={parentCenterX}
-                    y2={parentBottomY + 24}
+                    y2={connectorY}
                     stroke="#ff8c42"
                     strokeWidth="2"
                     strokeDasharray="5,5"
@@ -297,12 +303,12 @@ export default function FamilyTree({
                     <>
                       <line
                         x1={visibleChildren[0].x + CARD_WIDTH / 2}
-                        y1={parentBottomY + 24}
+                        y1={connectorY}
                         x2={
                           visibleChildren[visibleChildren.length - 1].x +
                           CARD_WIDTH / 2
                         }
-                        y2={parentBottomY + 24}
+                        y2={connectorY}
                         stroke="#ff8c42"
                         strokeWidth="2"
                       />
@@ -312,9 +318,9 @@ export default function FamilyTree({
                           <line
                             key={child.cat.id}
                             x1={childCenterX}
-                            y1={parentBottomY + 24}
+                            y1={connectorY}
                             x2={childCenterX}
-                            y2={parentBottomY + 40}
+                            y2={childTopY}
                             stroke="#ff8c42"
                             strokeWidth="2"
                             strokeDasharray="5,5"
@@ -328,9 +334,9 @@ export default function FamilyTree({
                   {visibleChildren.length === 1 && (
                     <line
                       x1={parentCenterX}
-                      y1={parentBottomY + 24}
+                      y1={parentBottomY}
                       x2={visibleChildren[0].x + CARD_WIDTH / 2}
-                      y2={(level + 1) * 220}
+                      y2={childTopY}
                       stroke="#ff8c42"
                       strokeWidth="2"
                       strokeDasharray="5,5"
