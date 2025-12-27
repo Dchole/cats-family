@@ -5,12 +5,10 @@ import { ArrowRight, Coffee, Zap, Heart, PackageOpen } from "lucide-react";
 import Link from "next/link";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
-import FloatingPaws from "./components/FloatingPaws";
 import CatCard from "./components/CatCard";
 import DecorativeCatCard from "./components/DecorativeCatCard";
 import StatCounter from "./components/StatCounter";
 import CatOfTheDay from "./components/CatOfTheDay";
-import MouseTrailPaws from "./components/MouseTrailPaws";
 import LatestAdventures from "./components/LatestAdventures";
 import AboutStory from "./components/AboutStory";
 import ContactAdoption from "./components/ContactAdoption";
@@ -23,8 +21,6 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Navigation />
-      <FloatingPaws />
-      <MouseTrailPaws />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-start justify-center px-6 overflow-hidden pt-32">
