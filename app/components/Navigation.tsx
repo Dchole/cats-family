@@ -26,6 +26,14 @@ export default function Navigation() {
 
   const handleAboutClick = (e: React.MouseEvent) => {
     e.preventDefault();
+
+    // If not on home page, navigate to home page with hash
+    if (pathname !== "/") {
+      window.location.href = "/#about";
+      return;
+    }
+
+    // If on home page, smooth scroll to section
     const aboutSection = document.getElementById("about-section");
     if (aboutSection) {
       aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -34,6 +42,14 @@ export default function Navigation() {
 
   const handleContactClick = (e: React.MouseEvent) => {
     e.preventDefault();
+
+    // If not on home page, navigate to home page with hash
+    if (pathname !== "/") {
+      window.location.href = "/#contact";
+      return;
+    }
+
+    // If on home page, smooth scroll to section
     const contactSection = document.getElementById("contact-section");
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: "smooth", block: "start" });

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Coffee, Zap, Heart, PackageOpen } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import CatCard from "./components/CatCard";
@@ -17,6 +18,21 @@ import { cats } from "@/lib/cats-data";
 export default function Home() {
   // Select a random cat for Cat of the Day (or use day-based rotation)
   const todaysCat = cats[new Date().getDate() % cats.length];
+
+  // Handle hash navigation on page load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        const id = hash.replace("#", "") + "-section";
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen">
