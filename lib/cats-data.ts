@@ -101,7 +101,7 @@ export const cats: Cat[] = [
     favoriteThings: ["High perches", "Grooming", "Solo playtime"],
     quirk: "Refuses to share food bowls",
     image:
-      "https://images.unsplash.com/photo-1592194996308-f265ec2b0e91?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&h=800&fit=crop",
     funFact: "Has a perfectly symmetrical patch on her nose",
     gender: "female",
     motherId: "whiskers",
@@ -199,7 +199,7 @@ export const cats: Cat[] = [
     favoriteThings: ["Expensive toys", "Clean litter", "Routine"],
     quirk: "Refuses to eat if the bowl isn't perfectly clean",
     image:
-      "https://images.unsplash.com/photo-1573865526739-10c1d3a1f0af?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=800&h=800&fit=crop",
     funFact: "Can recognize her name in multiple languages",
     gender: "female",
     motherId: "luna",
@@ -215,7 +215,7 @@ export const cats: Cat[] = [
     favoriteThings: ["Sunbathing", "Treats", "Slow walks"],
     quirk: "Stretches for a full minute after every nap",
     image:
-      "https://images.unsplash.com/photo-1573865526739-10c1d3a1f0af?w=800&h=800&fit=crop",
+      "https://images.unsplash.com/photo-1491485880348-85d48a9e5312?w=800&h=800&fit=crop",
     funFact: "Takes 8+ naps a day",
     gender: "male",
     motherId: "luna",

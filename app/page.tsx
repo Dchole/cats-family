@@ -126,11 +126,29 @@ export default function Home() {
             Our Adorable Residents
           </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {cats.map((cat, index) => (
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {cats.slice(0, 6).map((cat, index) => (
               <CatCard key={cat.id} cat={cat} index={index} />
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <Link href="/cats">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-gradient-to-r from-orange-400 to-pink-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow inline-flex items-center gap-2"
+              >
+                View All Cats
+                <ArrowRight size={20} />
+              </motion.button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
