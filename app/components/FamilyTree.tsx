@@ -157,64 +157,75 @@ export default function FamilyTree({
 
     if (!visible) return null;
 
-    return (
-      <Link href={`/cats/${node.cat.id}`} key={node.cat.id}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{
-            opacity: isContext ? 0.5 : 1,
-            scale: 1
-          }}
-          className={`relative group cursor-pointer ${
-            isContext ? "grayscale" : ""
+    const cardContent = (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{
+          opacity: isContext ? 0.5 : 1,
+          scale: 1
+        }}
+        className={`relative group ${
+          isContext ? "grayscale cursor-default" : "cursor-pointer"
+        }`}
+      >
+        <div
+          className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
+            isMatch
+              ? "ring-4 ring-orange-400 shadow-orange-200"
+              : isContext
+              ? ""
+              : "hover:bg-orange-50 hover:ring-2 hover:ring-orange-300 hover:shadow-xl"
           }`}
         >
-          <div
-            className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
-              isMatch
-                ? "ring-4 ring-orange-400 shadow-orange-200"
-                : "hover:bg-orange-50 hover:ring-2 hover:ring-orange-300 hover:shadow-xl"
-            }`}
-          >
-            {/* Image */}
-            <div className="relative h-28 overflow-hidden">
-              <Image
-                src={node.cat.image}
-                alt={node.cat.name}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              {node.cat.availableForAdoption && (
-                <div className="absolute top-1.5 right-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
-                  Available
-                </div>
-              )}
-            </div>
-
-            {/* Info */}
-            <div className="p-3">
-              <h3 className="text-base font-bold text-gray-800 mb-0.5">
-                {node.cat.name}
-              </h3>
-              <p className="text-xs text-gray-600 mb-1">
-                {node.cat.age < 1
-                  ? `${Math.round(node.cat.age * 12)} months`
-                  : `${node.cat.age} year${node.cat.age !== 1 ? "s" : ""}`}{" "}
-                •{" "}
-                <span
-                  className={
-                    node.cat.gender === "male"
-                      ? "text-blue-500"
-                      : "text-pink-500"
-                  }
-                >
-                  {node.cat.gender === "male" ? "♂" : "♀"}
-                </span>
-              </p>
-              <p className="text-xs text-gray-500">{node.cat.color}</p>
-            </div>
+          {/* Image */}
+          <div className="relative h-28 overflow-hidden">
+            <Image
+              src={node.cat.image}
+              alt={node.cat.name}
+              fill
+              className={`object-cover transition-transform duration-300 ${
+                isContext ? "" : "group-hover:scale-110"
+              }`}
+            />
+            {node.cat.availableForAdoption && (
+              <div className="absolute top-1.5 right-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+                Available
+              </div>
+            )}
           </div>
-        </motion.div>
+
+          {/* Info */}
+          <div className="p-3">
+            <h3 className="text-base font-bold text-gray-800 mb-0.5">
+              {node.cat.name}
+            </h3>
+            <p className="text-xs text-gray-600 mb-1">
+              {node.cat.age < 1
+                ? `${Math.round(node.cat.age * 12)} months`
+                : `${node.cat.age} year${node.cat.age !== 1 ? "s" : ""}`}{" "}
+              •{" "}
+              <span
+                className={
+                  node.cat.gender === "male" ? "text-blue-500" : "text-pink-500"
+                }
+              >
+                {node.cat.gender === "male" ? "♂" : "♀"}
+              </span>
+            </p>
+            <p className="text-xs text-gray-500">{node.cat.color}</p>
+          </div>
+        </div>
+      </motion.div>
+    );
+
+    // Only wrap in Link if it's not a context card
+    if (isContext) {
+      return <div key={node.cat.id}>{cardContent}</div>;
+    }
+
+    return (
+      <Link href={`/cats/${node.cat.id}`} key={node.cat.id}>
+        {cardContent}
       </Link>
     );
   };
@@ -354,25 +365,30 @@ export default function FamilyTree({
 
   return (
     <div className="space-y-16 md:px-4">
-      {familyTrees.map((tree, idx) => (
-        <motion.div
-          key={tree.cat.id}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: idx * 0.2 }}
-        >
-          <h2 className="text-2xl font-bold text-center mb-8 text-orange-600">
-            {tree.cat.name}'s Family
-          </h2>
-          <div className="overflow-x-auto pb-6 pt-2">
-            <div className="min-w-max flex justify-center">
-              {renderTreeLayers(tree)}
-            </div>
-          </div>
-        </motion.div>
-      ))}
+      {familyTrees.map((tree, idx) => {
+        const treeContent = renderTreeLayers(tree);
 
-      {familyTrees.length === 0 && (
+        // Don't render the family tree if it has no visible nodes
+        if (!treeContent) return null;
+
+        return (
+          <motion.div
+            key={tree.cat.id}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.2 }}
+          >
+            <h2 className="text-2xl font-bold text-center mb-8 text-orange-600">
+              {tree.cat.name}'s Family
+            </h2>
+            <div className="overflow-x-auto pb-6 pt-2">
+              <div className="min-w-max flex justify-center">{treeContent}</div>
+            </div>
+          </motion.div>
+        );
+      })}
+
+      {familyTrees.every(tree => !renderTreeLayers(tree)) && (
         <div className="text-center py-20">
           <p className="text-2xl text-gray-500">No cats match your filters</p>
         </div>

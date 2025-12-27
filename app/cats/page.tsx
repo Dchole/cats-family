@@ -112,7 +112,7 @@ export default function CatsPage() {
       <Navigation />
 
       <main className="pt-28 pb-20 px-6">
-        <div className="mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -156,15 +156,15 @@ export default function CatsPage() {
                 exit={{ opacity: 0, height: 0 }}
                 className="mb-8 overflow-hidden"
               >
-                <div className="bg-white rounded-3xl shadow-xl p-8">
+                <div className="bg-gradient-to-br from-white to-orange-50 rounded-3xl shadow-xl p-8 border-4 border-orange-200">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-2xl font-bold text-gray-800">
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
                       Filter Family Tree
                     </h3>
                     {hasActiveFilters && (
                       <button
                         onClick={resetFilters}
-                        className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold"
+                        className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-4 py-2 rounded-full font-semibold hover:shadow-lg transition-shadow"
                       >
                         <X size={18} />
                         Reset All
@@ -175,7 +175,7 @@ export default function CatsPage() {
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Age Range */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-800 mb-3">
                         Age Range (years)
                       </label>
                       <div className="flex items-center gap-3">
@@ -190,9 +190,9 @@ export default function CatsPage() {
                               ageMin: parseFloat(e.target.value)
                             })
                           }
-                          className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-20 px-3 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 transition-all"
                         />
-                        <span className="text-gray-500">to</span>
+                        <span className="text-gray-600 font-medium">to</span>
                         <input
                           type="number"
                           min="0"
@@ -204,14 +204,14 @@ export default function CatsPage() {
                               ageMax: parseFloat(e.target.value)
                             })
                           }
-                          className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          className="w-20 px-3 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 transition-all"
                         />
                       </div>
                     </div>
 
                     {/* Gender */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-800 mb-3">
                         Gender
                       </label>
                       <select
@@ -222,17 +222,17 @@ export default function CatsPage() {
                             gender: e.target.value as any
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 bg-white transition-all cursor-pointer"
                       >
                         <option value="all">All Genders</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="male">♂ Male</option>
+                        <option value="female">♀ Female</option>
                       </select>
                     </div>
 
                     {/* Color */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-800 mb-3">
                         Color/Pattern
                       </label>
                       <select
@@ -240,7 +240,7 @@ export default function CatsPage() {
                         onChange={e =>
                           setFilters({ ...filters, color: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 bg-white transition-all cursor-pointer"
                       >
                         {uniqueColors.map(color => (
                           <option key={color} value={color}>
@@ -252,7 +252,7 @@ export default function CatsPage() {
 
                     {/* Parent Filter */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-bold text-gray-800 mb-3">
                         Parent
                       </label>
                       <select
@@ -260,7 +260,7 @@ export default function CatsPage() {
                         onChange={e =>
                           setFilters({ ...filters, parent: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 bg-white transition-all cursor-pointer"
                       >
                         <option value="all">All Families</option>
                         {parentCats.map(parent => (
@@ -272,20 +272,22 @@ export default function CatsPage() {
                     </div>
 
                     {/* Available for Adoption */}
-                    <div className="flex items-center">
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.availableOnly}
-                          onChange={e =>
-                            setFilters({
-                              ...filters,
-                              availableOnly: e.target.checked
-                            })
-                          }
-                          className="w-5 h-5 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
-                        />
-                        <span className="text-sm font-semibold text-gray-700">
+                    <div className="flex items-center lg:col-span-2">
+                      <label className="flex items-center gap-3 cursor-pointer group">
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            checked={filters.availableOnly}
+                            onChange={e =>
+                              setFilters({
+                                ...filters,
+                                availableOnly: e.target.checked
+                              })
+                            }
+                            className="w-6 h-6 text-pink-500 border-2 border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-500 cursor-pointer transition-all"
+                          />
+                        </div>
+                        <span className="text-sm font-bold text-gray-800 group-hover:text-orange-600 transition-colors">
                           Available for Adoption Only
                         </span>
                       </label>
@@ -293,24 +295,27 @@ export default function CatsPage() {
                   </div>
 
                   {/* Results Info */}
-                  <div className="mt-6 pt-6 border-t border-gray-200">
-                    <p className="text-center text-gray-600">
-                      <span className="font-bold text-orange-600">
-                        {matchingCats.size}
-                      </span>{" "}
-                      cat{matchingCats.size !== 1 ? "s" : ""} match your filters
-                      {contextCats.size > 0 && (
-                        <>
-                          {" "}
-                          +{" "}
-                          <span className="font-bold text-pink-600">
-                            {contextCats.size}
-                          </span>{" "}
-                          family member{contextCats.size !== 1 ? "s" : ""} shown
-                          for context
-                        </>
-                      )}
-                    </p>
+                  <div className="mt-6 pt-6 border-t-2 border-orange-200">
+                    <div className="bg-gradient-to-r from-orange-100 to-pink-100 rounded-2xl p-4">
+                      <p className="text-center text-gray-800 font-medium">
+                        <span className="font-bold text-orange-600 text-lg">
+                          {matchingCats.size}
+                        </span>{" "}
+                        cat{matchingCats.size !== 1 ? "s" : ""} match your
+                        filters
+                        {contextCats.size > 0 && (
+                          <>
+                            {" "}
+                            +{" "}
+                            <span className="font-bold text-pink-600 text-lg">
+                              {contextCats.size}
+                            </span>{" "}
+                            family member{contextCats.size !== 1 ? "s" : ""}{" "}
+                            shown for context
+                          </>
+                        )}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -319,15 +324,15 @@ export default function CatsPage() {
 
           {/* Legend */}
           <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-400 to-pink-500"></div>
-              <span className="text-sm font-medium text-gray-700">
+            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-orange-200">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-400 to-pink-500 ring-2 ring-orange-300"></div>
+              <span className="text-sm font-bold text-gray-700">
                 Matches Filter
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-gray-300"></div>
-              <span className="text-sm font-medium text-gray-700">
+            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-gray-300">
+              <div className="w-4 h-4 rounded-full bg-gray-300 ring-2 ring-gray-400"></div>
+              <span className="text-sm font-bold text-gray-700">
                 Family Context
               </span>
             </div>
