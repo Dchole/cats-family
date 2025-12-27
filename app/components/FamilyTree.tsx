@@ -11,10 +11,14 @@ interface FamilyTreeProps {
   contextCats: Set<string>;
 }
 
-interface TreeNode {
+interface BaseTreeNode {
   cat: Cat;
-  children: TreeNode[];
+  children: BaseTreeNode[];
   level: number;
+}
+
+interface TreeNode extends BaseTreeNode {
+  children: TreeNode[];
   x: number; // x position for this node
   parentX: number | null; // x position of parent for connection lines
 }
@@ -32,10 +36,7 @@ export default function FamilyTree({
     // Find root cats (no mother or father)
     const roots = cats.filter(cat => !cat.motherId && !cat.fatherId);
 
-    const buildTree = (
-      cat: Cat,
-      level: number = 0
-    ): Omit<TreeNode, "x" | "parentX"> => {
+    const buildTree = (cat: Cat, level: number = 0): BaseTreeNode => {
       const children = cats
         .filter(c => c.motherId === cat.id || c.fatherId === cat.id)
         .map(child => buildTree(child, level + 1));
@@ -66,7 +67,7 @@ export default function FamilyTree({
 
   // Calculate x positions for all nodes in the tree
   const calculatePositions = (
-    node: Omit<TreeNode, "x" | "parentX">,
+    node: BaseTreeNode,
     parentX: number | null = null
   ): TreeNode => {
     // Filter visible children
@@ -218,7 +219,7 @@ export default function FamilyTree({
     );
   };
 
-  const renderTreeLayers = (rootNode: Omit<TreeNode, "x" | "parentX">) => {
+  const renderTreeLayers = (rootNode: BaseTreeNode) => {
     const { visible } = getCatVisibility(rootNode.cat.id);
     if (!visible) return null;
 
