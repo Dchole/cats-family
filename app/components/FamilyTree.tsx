@@ -19,7 +19,7 @@ interface TreeNode {
   parentX: number | null; // x position of parent for connection lines
 }
 
-const CARD_WIDTH = 192; // w-48 = 192px
+const CARD_WIDTH = 160; // w-40 = 160px
 const CARD_GAP = 16; // gap-4 = 16px
 const CARD_SPACING = CARD_WIDTH + CARD_GAP;
 
@@ -352,7 +352,7 @@ export default function FamilyTree({
   };
 
   return (
-    <div className="space-y-16 px-4">
+    <div className="space-y-16 md:px-4">
       {familyTrees.map((tree, idx) => (
         <motion.div
           key={tree.cat.id}
@@ -363,7 +363,7 @@ export default function FamilyTree({
           <h2 className="text-2xl font-bold text-center mb-8 text-orange-600">
             {tree.cat.name}'s Family
           </h2>
-          <div className="overflow-x-auto pb-6">
+          <div className="overflow-x-auto pb-6 pt-2">
             <div className="min-w-max flex justify-center">
               {renderTreeLayers(tree)}
             </div>
