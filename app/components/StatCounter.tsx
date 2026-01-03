@@ -36,7 +36,7 @@ export default function StatCounter({
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow border-2 border-[#8B9A8B]/20"
+      className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-md border-2 border-[#8B9A8B]/20"
     >
       <motion.div
         animate={{ rotate: [0, 10, -10, 0] }}
