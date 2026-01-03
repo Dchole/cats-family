@@ -111,7 +111,7 @@ export default function CatsPage() {
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-pink-50">
       <Navigation />
 
-      <main className="pt-28 pb-20 px-6">
+      <main className="pt-28 pb-20 px-2 md:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cats, Cat } from "@/lib/cats-data";
 import Image from "next/image";
@@ -26,11 +26,27 @@ interface TreeNode extends BaseTreeNode {
 const CARD_WIDTH = 160; // w-40 = 160px
 const CARD_GAP = 16; // gap-4 = 16px
 const CARD_SPACING = CARD_WIDTH + CARD_GAP;
+const MOBILE_CARD_WIDTH = 100; // Smaller for mobile
+const MOBILE_CARD_GAP = 8; // Tighter gap on mobile
+const MOBILE_CARD_SPACING = MOBILE_CARD_WIDTH + MOBILE_CARD_GAP;
 
 export default function FamilyTree({
   matchingCats,
   contextCats
 }: FamilyTreeProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Build family trees
   const familyTrees = useMemo(() => {
     // Find root cats (no mother or father)
@@ -120,8 +136,10 @@ export default function FamilyTree({
       child => getCatVisibility(child.cat.id).visible
     );
 
+    const spacing = isMobile ? MOBILE_CARD_SPACING : CARD_SPACING;
+
     if (visibleChildren.length === 0) {
-      return CARD_SPACING;
+      return spacing;
     }
 
     const childrenWidth = visibleChildren.reduce(
@@ -129,7 +147,14 @@ export default function FamilyTree({
       0
     );
 
-    return Math.max(CARD_SPACING, childrenWidth);
+    return Math.max(spacing, childrenWidth);
+  };
+
+  // Get actual card height based on content
+  const getCardHeight = (cat: Cat): number => {
+    if (!isMobile) return 190; // Desktop height is consistent
+    // Mobile: cards with "Available" are taller
+    return cat.availableForAdoption ? 80 : 65;
   };
 
   // Flatten tree into levels for rendering
@@ -150,6 +175,85 @@ export default function FamilyTree({
 
     traverse(node);
     return levels;
+  };
+
+  // Mobile-specific card rendering - compact with badge
+  const renderMobileCatCard = (node: TreeNode) => {
+    const { visible, isMatch, isContext } = getCatVisibility(node.cat.id);
+
+    if (!visible) return null;
+
+    const cardContent = (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{
+          opacity: isContext ? 0.5 : 1,
+          scale: 1
+        }}
+        className={`relative ${
+          isContext ? "grayscale cursor-default" : "cursor-pointer"
+        }`}
+      >
+        <div
+          className={`bg-white rounded-xl shadow-md overflow-visible transition-all duration-300 ${
+            isMatch
+              ? "ring-2 ring-orange-400"
+              : isContext
+              ? ""
+              : "hover:bg-orange-50 hover:ring-2 hover:ring-orange-300"
+          }`}
+        >
+          {/* Image Badge - top right */}
+          <div className="absolute -top-1.5 -right-1.5 w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-lg z-10">
+            <Image
+              src={node.cat.image}
+              alt={node.cat.name}
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          {/* Info - more compact */}
+          <div className="p-1 pr-5">
+            <h3 className="text-sm font-bold text-gray-800 mb-0.5">
+              {node.cat.name}
+            </h3>
+            <p className="text-[10px] text-gray-600 mb-0.5">
+              {node.cat.age < 1
+                ? `${Math.round(node.cat.age * 12)}mo`
+                : `${node.cat.age}yr${node.cat.age !== 1 ? "s" : ""}`}{" "}
+              •{" "}
+              <span
+                className={
+                  node.cat.gender === "male" ? "text-blue-500" : "text-pink-500"
+                }
+              >
+                {node.cat.gender === "male" ? "♂" : "♀"}
+              </span>
+            </p>
+            <p className="text-[10px] text-gray-500 truncate">
+              {node.cat.color}
+            </p>
+            {node.cat.availableForAdoption && (
+              <p className="text-[10px] font-bold text-pink-600 mt-0.5">
+                Available
+              </p>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    );
+
+    // Only wrap in Link if it's not a context card
+    if (isContext) {
+      return <div key={node.cat.id}>{cardContent}</div>;
+    }
+
+    return (
+      <Link href={`/cats/${node.cat.id}`} key={node.cat.id}>
+        {cardContent}
+      </Link>
+    );
   };
 
   const renderCatCard = (node: TreeNode) => {
@@ -234,6 +338,12 @@ export default function FamilyTree({
     const { visible } = getCatVisibility(rootNode.cat.id);
     if (!visible) return null;
 
+    // Use mobile dimensions and card renderer on small screens
+    const cardWidth = isMobile ? MOBILE_CARD_WIDTH : CARD_WIDTH;
+    const cardSpacing = isMobile ? MOBILE_CARD_SPACING : CARD_SPACING;
+    const cardHeight = isMobile ? 65 : 190; // Shorter for mobile badge layout
+    const levelHeight = isMobile ? 115 : 260; // Shorter vertical lines on mobile
+
     // Calculate positions
     const positionedTree = calculatePositions(rootNode);
 
@@ -243,15 +353,13 @@ export default function FamilyTree({
 
     // Calculate total width
     const totalWidth = getSubtreeWidth(positionedTree);
-    const LEVEL_HEIGHT = 260; // Increased spacing between generations
-    const CARD_HEIGHT = 190; // Card height with small buffer to prevent line overlap
 
     return (
       <div
         className="relative"
         style={{
           width: `${totalWidth}px`,
-          minHeight: `${(maxLevel + 1) * LEVEL_HEIGHT}px`
+          minHeight: `${(maxLevel + 1) * levelHeight}px`
         }}
       >
         {/* Render each level */}
@@ -259,7 +367,7 @@ export default function FamilyTree({
           <div
             key={level}
             className="absolute w-full"
-            style={{ top: `${level * LEVEL_HEIGHT}px` }}
+            style={{ top: `${level * levelHeight}px` }}
           >
             {nodes.map(node => (
               <div
@@ -267,10 +375,10 @@ export default function FamilyTree({
                 className="absolute"
                 style={{
                   left: `${node.x}px`,
-                  width: `${CARD_WIDTH}px`
+                  width: `${cardWidth}px`
                 }}
               >
-                {renderCatCard(node)}
+                {isMobile ? renderMobileCatCard(node) : renderCatCard(node)}
               </div>
             ))}
           </div>
@@ -280,7 +388,7 @@ export default function FamilyTree({
         <svg
           className="absolute top-0 left-0 pointer-events-none"
           width={totalWidth}
-          height={(maxLevel + 1) * LEVEL_HEIGHT}
+          height={(maxLevel + 1) * levelHeight}
         >
           {Array.from(levels.entries()).map(([level, nodes]) =>
             nodes.map(node => {
@@ -290,12 +398,16 @@ export default function FamilyTree({
 
               if (visibleChildren.length === 0) return null;
 
-              const parentCenterX = node.x + CARD_WIDTH / 2;
-              const parentBottomY = level * LEVEL_HEIGHT + CARD_HEIGHT;
-              const lineStartY = parentBottomY + 8; // Add 8px gap so line doesn't touch card
+              const parentCenterX = node.x + cardWidth / 2;
+              const actualParentCardHeight = getCardHeight(node.cat);
+              const parentBottomY =
+                level * levelHeight + actualParentCardHeight;
+              const gapFromCard = isMobile ? 12 : 8; // Larger gap for mobile to clear badge
+              const lineStartY = parentBottomY + gapFromCard; // Add gap so line doesn't touch card
 
-              const childTopY = (level + 1) * LEVEL_HEIGHT;
-              const connectorY = lineStartY + (childTopY - lineStartY) / 2;
+              const childTopY = (level + 1) * levelHeight;
+              const lineEndY = childTopY - gapFromCard; // Stop before child card
+              const connectorY = lineStartY + (lineEndY - lineStartY) / 2;
 
               return (
                 <g key={node.cat.id}>
@@ -314,25 +426,25 @@ export default function FamilyTree({
                   {visibleChildren.length > 1 && (
                     <>
                       <line
-                        x1={visibleChildren[0].x + CARD_WIDTH / 2}
+                        x1={visibleChildren[0].x + cardWidth / 2}
                         y1={connectorY}
                         x2={
                           visibleChildren[visibleChildren.length - 1].x +
-                          CARD_WIDTH / 2
+                          cardWidth / 2
                         }
                         y2={connectorY}
                         stroke="#ff8c42"
                         strokeWidth="2"
                       />
                       {visibleChildren.map(child => {
-                        const childCenterX = child.x + CARD_WIDTH / 2;
+                        const childCenterX = child.x + cardWidth / 2;
                         return (
                           <line
                             key={child.cat.id}
                             x1={childCenterX}
                             y1={connectorY}
                             x2={childCenterX}
-                            y2={childTopY}
+                            y2={lineEndY}
                             stroke="#ff8c42"
                             strokeWidth="2"
                             strokeDasharray="5,5"
@@ -347,8 +459,8 @@ export default function FamilyTree({
                     <line
                       x1={parentCenterX}
                       y1={lineStartY}
-                      x2={visibleChildren[0].x + CARD_WIDTH / 2}
-                      y2={childTopY}
+                      x2={visibleChildren[0].x + cardWidth / 2}
+                      y2={lineEndY}
                       stroke="#ff8c42"
                       strokeWidth="2"
                       strokeDasharray="5,5"
