@@ -2,14 +2,17 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, X } from "lucide-react";
+import { Filter, X, LayoutGrid, GitBranch } from "lucide-react";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import FamilyTree from "../components/FamilyTree";
-import { cats } from "@/lib/cats-data";
+import { cats, Cat } from "@/lib/cats-data";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function CatsPage() {
   const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<"tree" | "grid">("tree");
   const [filters, setFilters] = useState({
     ageMin: 0,
     ageMax: 10,
@@ -88,6 +91,22 @@ export default function CatsPage() {
     };
   }, [filters]);
 
+  const hasActiveFilters =
+    filters.ageMin > 0 ||
+    filters.ageMax < 10 ||
+    filters.gender !== "all" ||
+    filters.color !== "all" ||
+    filters.parent !== "all" ||
+    filters.availableOnly;
+
+  // Get filtered cats for grid view
+  const filteredCats = useMemo(() => {
+    if (matchingCats.size === 0 && !hasActiveFilters) {
+      return cats; // Show all if no filters
+    }
+    return cats.filter(cat => matchingCats.has(cat.id));
+  }, [matchingCats, hasActiveFilters]);
+
   const resetFilters = () => {
     setFilters({
       ageMin: 0,
@@ -98,14 +117,6 @@ export default function CatsPage() {
       availableOnly: false
     });
   };
-
-  const hasActiveFilters =
-    filters.ageMin > 0 ||
-    filters.ageMax < 10 ||
-    filters.gender !== "all" ||
-    filters.color !== "all" ||
-    filters.parent !== "all" ||
-    filters.availableOnly;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 to-pink-50">
@@ -131,7 +142,7 @@ export default function CatsPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex justify-center mb-8"
+            className="flex justify-center gap-4 mb-8 flex-wrap"
           >
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -145,6 +156,32 @@ export default function CatsPage() {
                 </span>
               )}
             </button>
+
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-2 bg-white rounded-full p-1 shadow-lg border-2 border-orange-200">
+              <button
+                onClick={() => setViewMode("tree")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all ${
+                  viewMode === "tree"
+                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md"
+                    : "text-gray-600 hover:text-orange-600"
+                }`}
+              >
+                <GitBranch size={20} />
+                Tree
+              </button>
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all ${
+                  viewMode === "grid"
+                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md"
+                    : "text-gray-600 hover:text-orange-600"
+                }`}
+              >
+                <LayoutGrid size={20} />
+                Grid
+              </button>
+            </div>
           </motion.div>
 
           {/* Filters Panel */}
@@ -322,24 +359,90 @@ export default function CatsPage() {
             )}
           </AnimatePresence>
 
-          {/* Legend */}
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-orange-200">
-              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-400 to-pink-500 ring-2 ring-orange-300"></div>
-              <span className="text-sm font-bold text-gray-700">
-                Matches Filter
-              </span>
+          {/* Legend - only show for tree view */}
+          {viewMode === "tree" && (
+            <div className="flex flex-wrap justify-center gap-6 mb-8">
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-orange-200">
+                <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-400 to-pink-500 ring-2 ring-orange-300"></div>
+                <span className="text-sm font-bold text-gray-700">
+                  Matches Filter
+                </span>
+              </div>
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-gray-300">
+                <div className="w-4 h-4 rounded-full bg-gray-300 ring-2 ring-gray-400"></div>
+                <span className="text-sm font-bold text-gray-700">
+                  Family Context
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-gray-300">
-              <div className="w-4 h-4 rounded-full bg-gray-300 ring-2 ring-gray-400"></div>
-              <span className="text-sm font-bold text-gray-700">
-                Family Context
-              </span>
-            </div>
-          </div>
+          )}
 
-          {/* Family Tree */}
-          <FamilyTree matchingCats={matchingCats} contextCats={contextCats} />
+          {/* Content - Tree or Grid View */}
+          {viewMode === "tree" ? (
+            <FamilyTree matchingCats={matchingCats} contextCats={contextCats} />
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              {filteredCats.map((cat, index) => (
+                <motion.div
+                  key={cat.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <Link href={`/cats/${cat.id}`}>
+                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                      <div className="relative h-64">
+                        <Image
+                          src={cat.image}
+                          alt={cat.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                        {cat.availableForAdoption && (
+                          <div className="absolute top-3 right-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                            Available
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                          {cat.name}
+                        </h3>
+                        <div className="space-y-1 text-gray-600">
+                          <p>
+                            <span className="font-semibold">Age:</span>{" "}
+                            {cat.age < 1
+                              ? `${Math.round(cat.age * 12)} months`
+                              : `${cat.age} year${cat.age !== 1 ? "s" : ""}`}
+                          </p>
+                          <p>
+                            <span className="font-semibold">Gender:</span>{" "}
+                            <span
+                              className={
+                                cat.gender === "male"
+                                  ? "text-blue-500"
+                                  : "text-pink-500"
+                              }
+                            >
+                              {cat.gender === "male" ? "Male ♂" : "Female ♀"}
+                            </span>
+                          </p>
+                          <p>
+                            <span className="font-semibold">Color:</span>{" "}
+                            {cat.color}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </main>
 
