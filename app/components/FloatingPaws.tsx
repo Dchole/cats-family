@@ -1,27 +1,38 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { PawPrint } from "lucide-react";
 
 export default function FloatingPaws() {
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
+  const [dimensions, setDimensions] = useState(() => ({
+    width: typeof window !== "undefined" ? window.innerWidth : 1920,
+    height: typeof window !== "undefined" ? window.innerHeight : 1080
+  }));
 
   useEffect(() => {
-    setDimensions({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
+    const handleResize = () => {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    };
 
-  // Generate random values once
-  const pawsData = useMemo(
-    () =>
-      Array.from({ length: 6 }).map(() => ({
-        initialX: Math.random() * dimensions.width,
-        initialRotate: Math.random() * 360,
-        animateRotate: Math.random() * 360 + 360,
-        animateX: Math.random() * dimensions.width,
-        duration: 15 + Math.random() * 10
-      })),
-    [dimensions.width]
+    // Set initial dimensions if not already set
+    if (dimensions.width === 1920) {
+      handleResize();
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [dimensions.width]);
+
+  // Generate random values once using useState to ensure purity
+  const [pawsData] = useState(() =>
+    Array.from({ length: 6 }).map(() => ({
+      initialX: Math.random() * 1920,
+      initialRotate: Math.random() * 360,
+      animateRotate: Math.random() * 360 + 360,
+      animateXOffset: Math.random() * 200 - 100, // Random offset from initial position
+      duration: 15 + Math.random() * 10
+    }))
   );
 
   return (
@@ -38,7 +49,7 @@ export default function FloatingPaws() {
           animate={{
             y: dimensions.height + 50,
             rotate: paw.animateRotate,
-            x: paw.animateX
+            x: paw.initialX + paw.animateXOffset
           }}
           transition={{
             duration: paw.duration,

@@ -40,7 +40,7 @@ export default function DecorativeCatCard({
         {/* Image */}
         <div
           className={`relative w-full overflow-hidden bg-[#F5F1EA] ${
-            variant === "horizontal" ? "aspect-[16/9]" : "aspect-square"
+            variant === "horizontal" ? "aspect-video" : "aspect-square"
           }`}
         >
           <Image
@@ -59,7 +59,7 @@ export default function DecorativeCatCard({
           </h3>
 
           <p className="text-center text-gray-600 italic text-sm">
-            "{cat.quirk}"
+            &quot;{cat.quirk}&quot;
           </p>
         </div>
       </div>

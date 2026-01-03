@@ -93,7 +93,7 @@ export default function FamilyTree({
 
     // Recursively calculate positions for children
     let childStartX = 0;
-    const positionedChildren = visibleChildrenData.map((child, idx) => {
+    const positionedChildren = visibleChildrenData.map(child => {
       const positionedChild = calculatePositions(child, 0); // temp parentX
       const result = { ...positionedChild, x: childStartX };
       childStartX += getSubtreeWidth(positionedChild);
@@ -344,8 +344,6 @@ export default function FamilyTree({
 
     // Use mobile dimensions and card renderer on small screens
     const cardWidth = isMobile ? MOBILE_CARD_WIDTH : CARD_WIDTH;
-    const cardSpacing = isMobile ? MOBILE_CARD_SPACING : CARD_SPACING;
-    const cardHeight = isMobile ? 65 : 190; // Shorter for mobile badge layout
     const levelHeight = isMobile ? 115 : 260; // Shorter vertical lines on mobile
 
     // Calculate positions
@@ -495,7 +493,7 @@ export default function FamilyTree({
             transition={{ delay: idx * 0.2 }}
           >
             <h2 className="text-2xl font-bold text-center mb-8 text-[#D4766A]">
-              {tree.cat.name}'s Family
+              {tree.cat.name}&apos;s Family
             </h2>
             <div className="overflow-x-auto pb-6 pt-2">
               <div className="min-w-max flex justify-center">{treeContent}</div>

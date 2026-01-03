@@ -45,8 +45,8 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-gray-600 leading-relaxed">
-              Follow our adorable cat family's daily adventures, mischief, and
-              endless cuddles.
+              Follow our adorable cat family&apos;s daily adventures, mischief,
+              and endless cuddles.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export default function Footer() {
                     className="flex items-center gap-2 text-gray-700 hover:text-[#8B6F47] transition-colors"
                   >
                     <social.icon size={20} />
-                    <span>{social.name}'s Instagram</span>
+                    <span>{social.name}&apos;s Instagram</span>
                   </motion.div>
                 </a>
               ))}

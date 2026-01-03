@@ -67,7 +67,7 @@ export default function CatDetailPage({
               animate={{ opacity: 1, x: 0 }}
               className="relative"
             >
-              <div className="relative h-96 md:h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-96 md:h-125 rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src={cat.image}
                   alt={cat.name}
@@ -169,7 +169,9 @@ export default function CatDetailPage({
                   <div className="text-4xl">✨</div>
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Fun Fact</h3>
-                    <p className="text-gray-600 italic">"{cat.funFact}"</p>
+                    <p className="text-gray-600 italic">
+                      &quot;{cat.funFact}&quot;
+                    </p>
                   </div>
                 </div>
               </div>

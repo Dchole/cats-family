@@ -51,7 +51,7 @@ export default function CatCard({ cat, index }: CatCardProps) {
             </h3>
 
             <p className="text-center text-gray-600 italic text-sm">
-              "{cat.quirk}"
+              &quot;{cat.quirk}&quot;
             </p>
           </div>
         </div>

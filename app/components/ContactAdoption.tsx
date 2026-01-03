@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Mail, Phone, Heart, PawPrint } from "lucide-react";
-import Image from "next/image";
 
 export default function ContactAdoption() {
   const contactMethods = [
@@ -135,7 +134,7 @@ export default function ContactAdoption() {
               fill="currentColor"
             />
             <h3 className="text-2xl font-bold text-gray-800">
-              We'd Love to Hear From You!
+              We&apos;d Love to Hear From You!
             </h3>
             <PawPrint
               className="text-[#D4766A]"
@@ -144,7 +143,7 @@ export default function ContactAdoption() {
             />
           </div>
           <p className="text-gray-600 text-lg leading-relaxed">
-            Whether you're interested in adoption, have questions about our
+            Whether you&apos;re interested in adoption, have questions about our
             cats, or just want to say hello, feel free to reach out. We
             typically respond within 24 hours and would be thrilled to help you
             find your perfect furry companion! 🐱💕

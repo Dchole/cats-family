@@ -6,7 +6,7 @@ import { Filter, X, LayoutGrid, GitBranch } from "lucide-react";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import FamilyTree from "../components/FamilyTree";
-import { cats, Cat } from "@/lib/cats-data";
+import { cats } from "@/lib/cats-data";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -256,7 +256,7 @@ export default function CatsPage() {
                         onChange={e =>
                           setFilters({
                             ...filters,
-                            gender: e.target.value as any
+                            gender: e.target.value as "all" | "male" | "female"
                           })
                         }
                         className="w-full px-4 py-2 border-2 border-[#8B9A8B]/30 rounded-xl focus:ring-2 focus:ring-[#D4766A] focus:border-[#D4766A] font-semibold text-gray-800 bg-white transition-all cursor-pointer"
@@ -302,7 +302,7 @@ export default function CatsPage() {
                         <option value="all">All Families</option>
                         {parentCats.map(parent => (
                           <option key={parent.id} value={parent.id}>
-                            {parent.name}'s Family
+                            {parent.name}&apos;s Family
                           </option>
                         ))}
                       </select>

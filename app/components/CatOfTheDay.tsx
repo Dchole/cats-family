@@ -37,7 +37,7 @@ export default function CatOfTheDay({ cat }: CatOfTheDayProps) {
             <Sparkles className="text-[#8B6F47]" size={32} />
           </div>
           <p className="text-xl text-gray-700">
-            Today's spotlight shines on...
+            Today&apos;s spotlight shines on...
           </p>
         </motion.div>
 
@@ -92,7 +92,7 @@ export default function CatOfTheDay({ cat }: CatOfTheDayProps) {
                     {cat.breed}
                   </p>
                   <p className="text-lg italic bg-[#F5F1EA] p-4 rounded-xl border-l-4 border-[#D4766A]">
-                    "{cat.quirk}"
+                    &quot;{cat.quirk}&quot;
                   </p>
                   <p className="text-base text-gray-600">
                     <span className="font-semibold">Fun Fact:</span>{" "}

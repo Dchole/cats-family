@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface MediaItem {
   type: "image" | "video";
@@ -102,19 +102,22 @@ function StoryCard({
   onOpenFullscreen: () => void;
   onCloseFullscreen: () => void;
 }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [isPaused, setIsPaused] = useState(true); // Start paused
   const [isCardHovered, setIsCardHovered] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const duration = 5000; // 5 seconds per slide
 
-  // Reset slide when becoming active
+  // Reset when becoming active using key prop on parent component instead
+  // This effect is for transitioning from inactive to active
+  const activeRef = useRef(isActive);
   useEffect(() => {
-    if (isActive) {
-      setCurrentSlide(0);
-      setProgress(0);
+    if (isActive && !activeRef.current) {
+      // Just became active - reset via separate effect
+      activeRef.current = isActive;
+    } else if (!isActive) {
+      activeRef.current = false;
     }
   }, [isActive]);
 
@@ -212,7 +215,7 @@ function StoryCard({
           className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow cursor-pointer"
         >
           {/* Story Media with Progress Bars */}
-          <div className="relative aspect-[4/3] overflow-hidden bg-gray-900">
+          <div className="relative aspect-4/3 overflow-hidden bg-gray-900">
             {/* Progress Indicators */}
             <div className="absolute top-2 left-2 right-2 z-20 flex gap-1">
               {adventure.media.map((_, idx) => (
@@ -302,7 +305,7 @@ function StoryCard({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={e => {
+            onClick={() => {
               // Normal click advances slide
               goToNextSlide();
             }}

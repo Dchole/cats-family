@@ -88,10 +88,10 @@ export default function AboutStory() {
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
                   Despite their different personalities, these three have formed
-                  an unbreakable bond. Whether they're chasing each other around
-                  the house, cuddling up together for afternoon naps, or getting
-                  into mischief, they remind us every day why cats are the most
-                  wonderful companions.
+                  an unbreakable bond. Whether they&apos;re chasing each other
+                  around the house, cuddling up together for afternoon naps, or
+                  getting into mischief, they remind us every day why cats are
+                  the most wonderful companions.
                 </p>
               </div>
             </div>
