@@ -292,17 +292,17 @@ export default function FamilyTree({
 
               const parentCenterX = node.x + CARD_WIDTH / 2;
               const parentBottomY = level * LEVEL_HEIGHT + CARD_HEIGHT;
+              const lineStartY = parentBottomY + 8; // Add 8px gap so line doesn't touch card
 
               const childTopY = (level + 1) * LEVEL_HEIGHT;
-              const connectorY =
-                parentBottomY + (childTopY - parentBottomY) / 2;
+              const connectorY = lineStartY + (childTopY - lineStartY) / 2;
 
               return (
                 <g key={node.cat.id}>
                   {/* Vertical line from parent */}
                   <line
                     x1={parentCenterX}
-                    y1={parentBottomY}
+                    y1={lineStartY}
                     x2={parentCenterX}
                     y2={connectorY}
                     stroke="#ff8c42"
@@ -346,7 +346,7 @@ export default function FamilyTree({
                   {visibleChildren.length === 1 && (
                     <line
                       x1={parentCenterX}
-                      y1={parentBottomY}
+                      y1={lineStartY}
                       x2={visibleChildren[0].x + CARD_WIDTH / 2}
                       y2={childTopY}
                       stroke="#ff8c42"
