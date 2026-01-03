@@ -24,9 +24,9 @@ export default function CatCard({ cat, index }: CatCardProps) {
       }}
     >
       <Link href={`/cats/${cat.id}`}>
-        <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden border-4 border-orange-200 hover:border-pink-300 transition-colors cursor-pointer group">
+        <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden border-4 border-[#8B9A8B]/30 hover:border-[#D4766A] transition-colors cursor-pointer group">
           <motion.div
-            className="absolute top-4 right-4 text-yellow-400 z-10"
+            className="absolute top-4 right-4 text-[#8B6F47] z-10"
             animate={{ rotate: [0, 10, 0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
@@ -34,7 +34,7 @@ export default function CatCard({ cat, index }: CatCardProps) {
           </motion.div>
 
           {/* Instagram-style image */}
-          <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-orange-100 to-pink-100">
+          <div className="relative w-full aspect-square overflow-hidden bg-[#F5F1EA]">
             <Image
               src={cat.image}
               alt={cat.name}
@@ -46,7 +46,7 @@ export default function CatCard({ cat, index }: CatCardProps) {
 
           {/* White bottom section */}
           <div className="bg-white p-6">
-            <h3 className="text-2xl font-bold text-center mb-2 text-orange-600">
+            <h3 className="text-2xl font-bold text-center mb-2 text-[#D4766A]">
               {cat.name}
             </h3>
 

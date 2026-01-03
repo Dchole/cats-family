@@ -197,10 +197,10 @@ export default function FamilyTree({
         <div
           className={`bg-white rounded-xl shadow-md overflow-visible transition-all duration-300 ${
             isMatch
-              ? "ring-2 ring-orange-400"
+              ? "ring-2 ring-[#D4766A]"
               : isContext
               ? ""
-              : "hover:bg-orange-50 hover:ring-2 hover:ring-orange-300"
+              : "hover:bg-[#FAF8F5] hover:ring-2 hover:ring-[#8B9A8B]"
           }`}
         >
           {/* Image Badge - top right */}
@@ -225,7 +225,9 @@ export default function FamilyTree({
               •{" "}
               <span
                 className={
-                  node.cat.gender === "male" ? "text-blue-500" : "text-pink-500"
+                  node.cat.gender === "male"
+                    ? "text-[#8B9A8B]"
+                    : "text-[#D4766A]"
                 }
               >
                 {node.cat.gender === "male" ? "♂" : "♀"}
@@ -235,7 +237,7 @@ export default function FamilyTree({
               {node.cat.color}
             </p>
             {node.cat.availableForAdoption && (
-              <p className="text-[10px] font-bold text-pink-600 mt-0.5">
+              <p className="text-[10px] font-bold text-[#8B6F47] mt-0.5">
                 Available
               </p>
             )}
@@ -275,10 +277,10 @@ export default function FamilyTree({
         <div
           className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
             isMatch
-              ? "ring-4 ring-orange-400 shadow-orange-200"
+              ? "ring-4 ring-[#D4766A] shadow-[#D4766A]/20"
               : isContext
-              ? ""
-              : "hover:bg-orange-50 hover:ring-2 hover:ring-orange-300 hover:shadow-xl"
+              ? "grayscale opacity-60"
+              : "hover:bg-[#FAF8F5] hover:ring-2 hover:ring-[#8B9A8B] hover:shadow-xl"
           }`}
         >
           {/* Image */}
@@ -292,7 +294,7 @@ export default function FamilyTree({
               }`}
             />
             {node.cat.availableForAdoption && (
-              <div className="absolute top-1.5 right-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+              <div className="absolute top-1.5 right-1.5 bg-[#8B6F47] text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
                 Available
               </div>
             )}
@@ -310,7 +312,9 @@ export default function FamilyTree({
               •{" "}
               <span
                 className={
-                  node.cat.gender === "male" ? "text-blue-500" : "text-pink-500"
+                  node.cat.gender === "male"
+                    ? "text-[#8B9A8B]"
+                    : "text-[#D4766A]"
                 }
               >
                 {node.cat.gender === "male" ? "♂" : "♀"}
@@ -417,7 +421,7 @@ export default function FamilyTree({
                     y1={lineStartY}
                     x2={parentCenterX}
                     y2={connectorY}
-                    stroke="#ff8c42"
+                    stroke="#D4766A"
                     strokeWidth="2"
                     strokeDasharray="5,5"
                   />
@@ -433,7 +437,7 @@ export default function FamilyTree({
                           cardWidth / 2
                         }
                         y2={connectorY}
-                        stroke="#ff8c42"
+                        stroke="#D4766A"
                         strokeWidth="2"
                       />
                       {visibleChildren.map(child => {
@@ -445,7 +449,7 @@ export default function FamilyTree({
                             y1={connectorY}
                             x2={childCenterX}
                             y2={lineEndY}
-                            stroke="#ff8c42"
+                            stroke="#D4766A"
                             strokeWidth="2"
                             strokeDasharray="5,5"
                           />
@@ -461,7 +465,7 @@ export default function FamilyTree({
                       y1={lineStartY}
                       x2={visibleChildren[0].x + cardWidth / 2}
                       y2={lineEndY}
-                      stroke="#ff8c42"
+                      stroke="#D4766A"
                       strokeWidth="2"
                       strokeDasharray="5,5"
                     />
@@ -490,7 +494,7 @@ export default function FamilyTree({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.2 }}
           >
-            <h2 className="text-2xl font-bold text-center mb-8 text-orange-600">
+            <h2 className="text-2xl font-bold text-center mb-8 text-[#D4766A]">
               {tree.cat.name}'s Family
             </h2>
             <div className="overflow-x-auto pb-6 pt-2">

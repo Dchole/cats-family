@@ -92,11 +92,11 @@ export default function Navigation() {
                     repeat: logoHovered ? 0 : Infinity,
                     repeatDelay: logoHovered ? 0 : 2
                   }}
-                  className="text-orange-500"
+                  className="text-[#D4766A]"
                 >
                   <PawPrint size={32} fill="currentColor" />
                 </motion.div>
-                <span className="text-2xl font-bold text-orange-500 font-display">
+                <span className="text-2xl font-bold text-[#D4766A] font-display">
                   Feline Squad
                 </span>
               </div>
@@ -121,7 +121,7 @@ export default function Navigation() {
                       {isActive && (
                         <motion.div
                           layoutId="activeTab"
-                          className="absolute inset-0 bg-orange-500 rounded-full"
+                          className="absolute inset-0 bg-[#D4766A] rounded-full"
                           transition={{
                             type: "spring",
                             bounce: 0.2,
@@ -134,7 +134,7 @@ export default function Navigation() {
                         className={`relative z-10 transition-colors duration-300 ${
                           isActive
                             ? "text-white"
-                            : "text-gray-700 group-hover:text-orange-500"
+                            : "text-gray-700 group-hover:text-[#D4766A]"
                         }`}
                       >
                         {link.name}
@@ -142,7 +142,7 @@ export default function Navigation() {
 
                       {/* Thin bottom border on hover (not for active) */}
                       {!isActive && (
-                        <motion.div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 to-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                        <motion.div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#8B6F47] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
                       )}
                     </motion.div>
                   </Link>
@@ -153,7 +153,7 @@ export default function Navigation() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-gray-700 hover:text-orange-500 transition-colors"
+              className="md:hidden text-gray-700 hover:text-[#D4766A] transition-colors"
             >
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -168,7 +168,7 @@ export default function Navigation() {
           height: mobileMenuOpen ? "auto" : 0,
           opacity: mobileMenuOpen ? 1 : 0
         }}
-        className="fixed top-[72px] left-0 right-0 bg-[#fef8f3]/95 backdrop-blur-sm overflow-hidden z-40 md:hidden border-b border-orange-200"
+        className="fixed top-[72px] left-0 right-0 bg-[#FAF8F5]/95 backdrop-blur-sm overflow-hidden z-40 md:hidden border-b border-[#8B9A8B]/30"
       >
         <div className="px-6 py-6 space-y-4">
           {navLinks.map(link => (
@@ -182,7 +182,7 @@ export default function Navigation() {
             >
               <motion.div
                 whileTap={{ scale: 0.95 }}
-                className="block text-lg font-medium text-gray-700 hover:text-orange-500 transition-colors py-2"
+                className="block text-lg font-medium text-gray-700 hover:text-[#D4766A] transition-colors py-2"
               >
                 {link.name}
               </motion.div>

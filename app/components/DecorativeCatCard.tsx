@@ -28,9 +28,9 @@ export default function DecorativeCatCard({
       }}
       className="pointer-events-none"
     >
-      <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden border-4 border-orange-200">
+      <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden border-4 border-[#D4766A]/50">
         <motion.div
-          className="absolute top-4 right-4 text-yellow-400 z-10"
+          className="absolute top-4 right-4 text-[#8B6F47] z-10"
           animate={{ rotate: [0, 10, 0, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -39,7 +39,7 @@ export default function DecorativeCatCard({
 
         {/* Image */}
         <div
-          className={`relative w-full overflow-hidden bg-gradient-to-br from-orange-100 to-pink-100 ${
+          className={`relative w-full overflow-hidden bg-[#F5F1EA] ${
             variant === "horizontal" ? "aspect-[16/9]" : "aspect-square"
           }`}
         >
@@ -54,7 +54,7 @@ export default function DecorativeCatCard({
 
         {/* Info section */}
         <div className="bg-white p-6">
-          <h3 className="text-2xl font-bold text-center mb-2 text-orange-600">
+          <h3 className="text-2xl font-bold text-center mb-2 text-[#D4766A]">
             {cat.name}
           </h3>
 

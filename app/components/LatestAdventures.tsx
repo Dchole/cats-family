@@ -238,7 +238,7 @@ function StoryCard({
             </div>
 
             {/* Cat name badge */}
-            <div className="absolute top-8 right-4 z-20 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <div className="absolute top-8 right-4 z-20 bg-[#D4766A] text-white px-3 py-1 rounded-full text-sm font-semibold">
               {adventure.catName}
             </div>
 
@@ -282,12 +282,12 @@ function StoryCard({
 
             <div className="space-y-2 text-gray-600">
               <div className="flex items-center gap-2">
-                <Calendar size={16} className="text-pink-500" />
+                <Calendar size={16} className="text-[#D4766A]" />
                 <span className="text-sm">{adventure.date}</span>
               </div>
 
               <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-purple-500" />
+                <MapPin size={16} className="text-[#8B6F47]" />
                 <span className="text-sm">{adventure.location}</span>
               </div>
             </div>
@@ -408,7 +408,7 @@ function StoryCard({
                     <MapPin size={16} />
                     <span>{adventure.location}</span>
                   </div>
-                  <div className="bg-orange-500 px-3 py-1 rounded-full font-semibold">
+                  <div className="bg-[#D4766A] px-3 py-1 rounded-full font-semibold">
                     {adventure.catName}
                   </div>
                 </div>
@@ -437,7 +437,7 @@ export default function LatestAdventures() {
   };
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-pink-50 to-purple-50">
+    <section className="py-20 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -445,7 +445,7 @@ export default function LatestAdventures() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-5xl md:text-6xl font-bold text-purple-600 mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-[#D4766A] mb-4">
             Latest Adventures
           </h2>
           <p className="text-xl text-gray-700">
@@ -478,7 +478,7 @@ export default function LatestAdventures() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow"
+              className="bg-[#8B6F47] text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow"
             >
               View All Adventures
             </motion.button>

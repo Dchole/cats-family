@@ -11,21 +11,21 @@ export default function ContactAdoption() {
       label: "Email Us",
       value: "catsquad@example.com",
       href: "mailto:catsquad@example.com",
-      color: "from-orange-400 to-pink-500"
+      color: "bg-[#D4766A]"
     },
     {
       icon: Phone,
       label: "Call Us",
       value: "(555) 123-4567",
       href: "tel:+15551234567",
-      color: "from-pink-400 to-purple-500"
+      color: "bg-[#8B6F47]"
     }
   ];
 
   return (
     <section
       id="contact-section"
-      className="py-20 px-6 bg-gradient-to-b from-orange-50 to-pink-50 relative overflow-hidden"
+      className="py-20 px-6 bg-[#F5F1EA] relative overflow-hidden"
     >
       {/* Decorative floating paws */}
       <motion.div
@@ -34,7 +34,7 @@ export default function ContactAdoption() {
           rotate: [0, 10, 0]
         }}
         transition={{ duration: 4, repeat: Infinity }}
-        className="absolute top-10 left-10 text-orange-300 opacity-30"
+        className="absolute top-10 left-10 text-[#8B9A8B]/20"
       >
         <PawPrint size={60} fill="currentColor" />
       </motion.div>
@@ -44,7 +44,7 @@ export default function ContactAdoption() {
           rotate: [0, -10, 0]
         }}
         transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-        className="absolute bottom-10 right-10 text-pink-300 opacity-30"
+        className="absolute bottom-10 right-10 text-[#D4766A]/20"
       >
         <PawPrint size={80} fill="currentColor" />
       </motion.div>
@@ -64,9 +64,9 @@ export default function ContactAdoption() {
             transition={{ type: "spring", bounce: 0.5 }}
             className="inline-block mb-4"
           >
-            <Heart className="text-pink-500" size={48} fill="currentColor" />
+            <Heart className="text-[#D4766A]" size={48} fill="currentColor" />
           </motion.div>
-          <h2 className="text-5xl md:text-6xl font-bold text-orange-600 mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-[#D4766A] mb-4">
             Ready to Add a Furry Friend?
           </h2>
           <p className="text-xl text-gray-700 max-w-2xl mx-auto">
@@ -90,7 +90,7 @@ export default function ContactAdoption() {
               className="block"
             >
               <div
-                className={`bg-gradient-to-br ${method.color} p-8 rounded-3xl shadow-xl text-white relative overflow-hidden group`}
+                className={`${method.color} p-8 rounded-3xl shadow-xl text-white relative overflow-hidden group`}
               >
                 {/* Animated background glow */}
                 <motion.div
@@ -130,14 +130,18 @@ export default function ContactAdoption() {
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <PawPrint
-              className="text-orange-500"
+              className="text-[#D4766A]"
               size={24}
               fill="currentColor"
             />
             <h3 className="text-2xl font-bold text-gray-800">
               We'd Love to Hear From You!
             </h3>
-            <PawPrint className="text-pink-500" size={24} fill="currentColor" />
+            <PawPrint
+              className="text-[#D4766A]"
+              size={24}
+              fill="currentColor"
+            />
           </div>
           <p className="text-gray-600 text-lg leading-relaxed">
             Whether you're interested in adoption, have questions about our

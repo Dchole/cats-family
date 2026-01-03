@@ -119,7 +119,7 @@ export default function CatsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-pink-50">
+    <div className="min-h-screen bg-[#FAF8F5]">
       <Navigation />
 
       <main className="pt-28 pb-20 px-2 md:px-6">
@@ -130,7 +130,7 @@ export default function CatsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-orange-600 mb-4">
+            <h1 className="text-5xl md:text-7xl font-bold text-[#D4766A] mb-4">
               Our Feline Family Tree
             </h1>
             <p className="text-xl text-gray-700">
@@ -146,25 +146,25 @@ export default function CatsPage() {
           >
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transition-shadow"
+              className="flex items-center gap-2 bg-[#D4766A] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-[#C86A5D] hover:shadow-xl transition-all"
             >
               <Filter size={20} />
               {showFilters ? "Hide Filters" : "Show Filters"}
               {hasActiveFilters && (
-                <span className="bg-white text-orange-600 px-2 py-0.5 rounded-full text-sm font-bold">
+                <span className="bg-white text-[#D4766A] px-2 py-0.5 rounded-full text-sm font-bold">
                   Active
                 </span>
               )}
             </button>
 
             {/* View Mode Toggle */}
-            <div className="flex items-center gap-2 bg-white rounded-full p-1 shadow-lg border-2 border-orange-200">
+            <div className="flex items-center gap-2 bg-white rounded-full p-1 shadow-lg border-2 border-[#8B9A8B]/30">
               <button
                 onClick={() => setViewMode("tree")}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all ${
                   viewMode === "tree"
-                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "bg-[#D4766A] text-white shadow-md"
+                    : "text-gray-600 hover:text-[#D4766A]"
                 }`}
               >
                 <GitBranch size={20} />
@@ -174,8 +174,8 @@ export default function CatsPage() {
                 onClick={() => setViewMode("grid")}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold transition-all ${
                   viewMode === "grid"
-                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md"
-                    : "text-gray-600 hover:text-orange-600"
+                    ? "bg-[#D4766A] text-white shadow-md"
+                    : "text-gray-600 hover:text-[#D4766A]"
                 }`}
               >
                 <LayoutGrid size={20} />
@@ -193,15 +193,15 @@ export default function CatsPage() {
                 exit={{ opacity: 0, height: 0 }}
                 className="mb-8 overflow-hidden"
               >
-                <div className="bg-gradient-to-br from-white to-orange-50 rounded-3xl shadow-xl p-8 border-4 border-orange-200">
+                <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-[#8B9A8B]/20">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
+                    <h3 className="text-3xl font-bold text-[#D4766A]">
                       Filter Family Tree
                     </h3>
                     {hasActiveFilters && (
                       <button
                         onClick={resetFilters}
-                        className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-4 py-2 rounded-full font-semibold hover:shadow-lg transition-shadow"
+                        className="flex items-center gap-2 bg-[#8B6F47] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#7A5F3C] hover:shadow-lg transition-all"
                       >
                         <X size={18} />
                         Reset All
@@ -227,7 +227,7 @@ export default function CatsPage() {
                               ageMin: parseFloat(e.target.value)
                             })
                           }
-                          className="w-20 px-3 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 transition-all"
+                          className="w-20 px-3 py-2 border-2 border-[#8B9A8B]/30 rounded-xl focus:ring-2 focus:ring-[#D4766A] focus:border-[#D4766A] font-semibold text-gray-800 transition-all"
                         />
                         <span className="text-gray-600 font-medium">to</span>
                         <input
@@ -241,7 +241,7 @@ export default function CatsPage() {
                               ageMax: parseFloat(e.target.value)
                             })
                           }
-                          className="w-20 px-3 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 transition-all"
+                          className="w-20 px-3 py-2 border-2 border-[#8B9A8B]/30 rounded-xl focus:ring-2 focus:ring-[#D4766A] focus:border-[#D4766A] font-semibold text-gray-800 transition-all"
                         />
                       </div>
                     </div>
@@ -259,7 +259,7 @@ export default function CatsPage() {
                             gender: e.target.value as any
                           })
                         }
-                        className="w-full px-4 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 bg-white transition-all cursor-pointer"
+                        className="w-full px-4 py-2 border-2 border-[#8B9A8B]/30 rounded-xl focus:ring-2 focus:ring-[#D4766A] focus:border-[#D4766A] font-semibold text-gray-800 bg-white transition-all cursor-pointer"
                       >
                         <option value="all">All Genders</option>
                         <option value="male">♂ Male</option>
@@ -277,7 +277,7 @@ export default function CatsPage() {
                         onChange={e =>
                           setFilters({ ...filters, color: e.target.value })
                         }
-                        className="w-full px-4 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 bg-white transition-all cursor-pointer"
+                        className="w-full px-4 py-2 border-2 border-[#8B9A8B]/30 rounded-xl focus:ring-2 focus:ring-[#D4766A] focus:border-[#D4766A] font-semibold text-gray-800 bg-white transition-all cursor-pointer"
                       >
                         {uniqueColors.map(color => (
                           <option key={color} value={color}>
@@ -297,7 +297,7 @@ export default function CatsPage() {
                         onChange={e =>
                           setFilters({ ...filters, parent: e.target.value })
                         }
-                        className="w-full px-4 py-2 border-2 border-orange-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-semibold text-gray-800 bg-white transition-all cursor-pointer"
+                        className="w-full px-4 py-2 border-2 border-[#8B9A8B]/30 rounded-xl focus:ring-2 focus:ring-[#D4766A] focus:border-[#D4766A] font-semibold text-gray-800 bg-white transition-all cursor-pointer"
                       >
                         <option value="all">All Families</option>
                         {parentCats.map(parent => (
@@ -321,10 +321,10 @@ export default function CatsPage() {
                                 availableOnly: e.target.checked
                               })
                             }
-                            className="w-6 h-6 text-pink-500 border-2 border-orange-300 rounded-lg focus:ring-2 focus:ring-orange-500 cursor-pointer transition-all"
+                            className="w-6 h-6 text-[#D4766A] border-2 border-[#8B9A8B]/30 rounded-lg focus:ring-2 focus:ring-[#D4766A] cursor-pointer transition-all"
                           />
                         </div>
-                        <span className="text-sm font-bold text-gray-800 group-hover:text-orange-600 transition-colors">
+                        <span className="text-sm font-bold text-gray-800 group-hover:text-[#D4766A] transition-colors">
                           Available for Adoption Only
                         </span>
                       </label>
@@ -332,10 +332,10 @@ export default function CatsPage() {
                   </div>
 
                   {/* Results Info */}
-                  <div className="mt-6 pt-6 border-t-2 border-orange-200">
-                    <div className="bg-gradient-to-r from-orange-100 to-pink-100 rounded-2xl p-4">
+                  <div className="mt-6 pt-6 border-t-2 border-[#8B9A8B]/20">
+                    <div className="bg-[#F5F1EA] rounded-2xl p-4">
                       <p className="text-center text-gray-800 font-medium">
-                        <span className="font-bold text-orange-600 text-lg">
+                        <span className="font-bold text-[#D4766A] text-lg">
                           {matchingCats.size}
                         </span>{" "}
                         cat{matchingCats.size !== 1 ? "s" : ""} match your
@@ -344,7 +344,7 @@ export default function CatsPage() {
                           <>
                             {" "}
                             +{" "}
-                            <span className="font-bold text-pink-600 text-lg">
+                            <span className="font-bold text-[#8B6F47] text-lg">
                               {contextCats.size}
                             </span>{" "}
                             family member{contextCats.size !== 1 ? "s" : ""}{" "}
@@ -362,8 +362,8 @@ export default function CatsPage() {
           {/* Legend - only show for tree view */}
           {viewMode === "tree" && (
             <div className="flex flex-wrap justify-center gap-6 mb-8">
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-orange-200">
-                <div className="w-4 h-4 rounded-full bg-gradient-to-r from-orange-400 to-pink-500 ring-2 ring-orange-300"></div>
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border-2 border-[#8B9A8B]/30">
+                <div className="w-4 h-4 rounded-full bg-[#D4766A] ring-2 ring-[#D4766A]/50"></div>
                 <span className="text-sm font-bold text-gray-700">
                   Matches Filter
                 </span>
@@ -403,7 +403,7 @@ export default function CatsPage() {
                           className="object-cover group-hover:scale-110 transition-transform duration-300"
                         />
                         {cat.availableForAdoption && (
-                          <div className="absolute top-3 right-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                          <div className="absolute top-3 right-3 bg-[#8B6F47] text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
                             Available
                           </div>
                         )}
@@ -424,8 +424,8 @@ export default function CatsPage() {
                             <span
                               className={
                                 cat.gender === "male"
-                                  ? "text-blue-500"
-                                  : "text-pink-500"
+                                  ? "text-[#8B9A8B]"
+                                  : "text-[#D4766A]"
                               }
                             >
                               {cat.gender === "male" ? "Male ♂" : "Female ♀"}

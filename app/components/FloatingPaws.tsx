@@ -29,7 +29,7 @@ export default function FloatingPaws() {
       {pawsData.map((paw, i) => (
         <motion.div
           key={i}
-          className="absolute text-orange-300/20"
+          className="absolute text-[#D4766A]/10"
           initial={{
             x: paw.initialX,
             y: -50,

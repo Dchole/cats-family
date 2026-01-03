@@ -43,7 +43,7 @@ export default function CatDetailPage({
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-pink-50">
+    <div className="min-h-screen bg-[#F5F1EA]">
       <Navigation />
 
       <main className="pt-28 pb-20 px-6">
@@ -52,7 +52,7 @@ export default function CatDetailPage({
           <Link href="/cats">
             <motion.button
               whileHover={{ x: -5 }}
-              className="flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold mb-8"
+              className="flex items-center gap-2 text-[#D4766A] hover:text-[#C86A5D] font-semibold mb-8"
             >
               <ArrowLeft size={20} />
               Back to Family Tree
@@ -81,7 +81,7 @@ export default function CatDetailPage({
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.3, type: "spring", bounce: 0.5 }}
-                  className="absolute -top-4 -right-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-full font-bold shadow-xl"
+                  className="absolute -top-4 -right-4 bg-[#D4766A] text-white px-6 py-3 rounded-full font-bold shadow-xl"
                 >
                   Available for Adoption! 💕
                 </motion.div>
@@ -94,13 +94,13 @@ export default function CatDetailPage({
               animate={{ opacity: 1, x: 0 }}
               className="flex flex-col justify-center"
             >
-              <h1 className="text-5xl md:text-6xl font-bold text-orange-600 mb-4">
+              <h1 className="text-5xl md:text-6xl font-bold text-[#D4766A] mb-4">
                 {cat.name}
               </h1>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 text-lg">
-                  <Calendar className="text-pink-500" size={24} />
+                  <Calendar className="text-[#D4766A]" size={24} />
                   <span className="text-gray-700">
                     <span className="font-semibold">Age:</span>{" "}
                     {cat.age < 1
@@ -110,14 +110,14 @@ export default function CatDetailPage({
                 </div>
 
                 <div className="flex items-center gap-3 text-lg">
-                  <Home className="text-orange-500" size={24} />
+                  <Home className="text-[#D4766A]" size={24} />
                   <span className="text-gray-700">
                     <span className="font-semibold">Breed:</span> {cat.breed}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-3 text-lg">
-                  <Palette className="text-purple-500" size={24} />
+                  <Palette className="text-[#8B6F47]" size={24} />
                   <span className="text-gray-700">
                     <span className="font-semibold">Color:</span> {cat.color}
                   </span>
@@ -133,7 +133,7 @@ export default function CatDetailPage({
                       className={
                         cat.gender === "male"
                           ? "text-blue-500"
-                          : "text-pink-500"
+                          : "text-[#D4766A]"
                       }
                     >
                       {cat.gender === "male" ? "Male" : "Female"}
@@ -145,7 +145,7 @@ export default function CatDetailPage({
               {/* Personality Tags */}
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-                  <Sparkles className="text-yellow-500" size={20} />
+                  <Sparkles className="text-[#8B6F47]" size={20} />
                   Personality
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -155,7 +155,7 @@ export default function CatDetailPage({
                       initial={{ opacity: 0, scale: 0 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.1 * idx }}
-                      className="bg-orange-500 text-white px-4 py-2 rounded-full font-semibold text-sm"
+                      className="bg-[#D4766A] text-white px-4 py-2 rounded-full font-semibold text-sm"
                     >
                       {trait}
                     </motion.span>
@@ -181,12 +181,12 @@ export default function CatDetailPage({
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-gradient-to-r from-pink-100 to-purple-100 rounded-3xl p-8 mb-12"
+            className="bg-white rounded-3xl p-8 mb-12 shadow-lg border-2 border-[#D4766A]/30"
           >
-            <h2 className="text-2xl font-bold text-purple-700 mb-4">
+            <h2 className="text-2xl font-bold text-[#D4766A] mb-4">
               Signature Quirk 😸
             </h2>
-            <p className="text-lg text-gray-700">{cat.quirk}</p>
+            <p className="text-lg text-gray-700 italic">{cat.quirk}</p>
           </motion.div>
 
           {/* Favorite Things */}
@@ -196,8 +196,8 @@ export default function CatDetailPage({
             transition={{ delay: 0.3 }}
             className="mb-12"
           >
-            <h2 className="text-3xl font-bold text-orange-600 mb-6 flex items-center gap-2">
-              <Heart className="text-pink-500" fill="currentColor" />
+            <h2 className="text-3xl font-bold text-[#D4766A] mb-6 flex items-center gap-2">
+              <Heart className="text-[#D4766A]" fill="currentColor" />
               Favorite Things
             </h2>
             <div className="grid md:grid-cols-3 gap-4">
@@ -226,7 +226,7 @@ export default function CatDetailPage({
               transition={{ delay: 0.4 }}
               className="mb-12"
             >
-              <h2 className="text-3xl font-bold text-orange-600 mb-6">
+              <h2 className="text-3xl font-bold text-[#D4766A] mb-6">
                 Family Members
               </h2>
 
@@ -361,7 +361,7 @@ export default function CatDetailPage({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
-              className="bg-gradient-to-r from-pink-500 to-purple-500 rounded-3xl p-8 text-white text-center"
+              className="bg-[#8B6F47] rounded-3xl p-8 text-white text-center"
             >
               <h2 className="text-3xl font-bold mb-4">
                 Interested in Adopting {cat.name}?
@@ -374,7 +374,7 @@ export default function CatDetailPage({
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-white text-pink-600 px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-shadow"
+                  className="bg-white text-[#8B6F47] px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-shadow"
                 >
                   Contact Us About {cat.name}
                 </motion.button>

@@ -6,10 +6,7 @@ import Image from "next/image";
 
 export default function AboutStory() {
   return (
-    <section
-      id="about-section"
-      className="py-20 px-6 bg-gradient-to-b from-purple-50 to-orange-50"
-    >
+    <section id="about-section" className="py-20 px-6 bg-[#F5F1EA]">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -24,9 +21,9 @@ export default function AboutStory() {
             transition={{ type: "spring", bounce: 0.5 }}
             className="inline-block mb-4"
           >
-            <Heart className="text-pink-500" size={48} fill="currentColor" />
+            <Heart className="text-[#D4766A]" size={48} fill="currentColor" />
           </motion.div>
-          <h2 className="text-5xl md:text-6xl font-bold text-orange-600 mb-4">
+          <h2 className="text-5xl md:text-6xl font-bold text-[#D4766A] mb-4">
             Our Story
           </h2>
           <p className="text-xl text-gray-700">
@@ -43,8 +40,8 @@ export default function AboutStory() {
             className="space-y-6"
           >
             <div className="flex items-start gap-4">
-              <div className="bg-orange-100 p-3 rounded-full mt-1">
-                <Home className="text-orange-600" size={24} />
+              <div className="bg-[#F5F1EA] p-3 rounded-full mt-1">
+                <Home className="text-[#D4766A]" size={24} />
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">
@@ -60,8 +57,8 @@ export default function AboutStory() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="bg-pink-100 p-3 rounded-full mt-1">
-                <Sparkles className="text-pink-600" size={24} />
+              <div className="bg-[#F5F1EA] p-3 rounded-full mt-1">
+                <Sparkles className="text-[#8B6F47]" size={24} />
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">
@@ -78,8 +75,12 @@ export default function AboutStory() {
             </div>
 
             <div className="flex items-start gap-4">
-              <div className="bg-purple-100 p-3 rounded-full mt-1">
-                <Heart className="text-purple-600" size={24} />
+              <div className="bg-[#F5F1EA] p-3 rounded-full mt-1 border-2 border-[#D4766A]/30">
+                <Heart
+                  className="text-[#D4766A]"
+                  size={24}
+                  fill="currentColor"
+                />
               </div>
               <div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">
@@ -166,22 +167,22 @@ export default function AboutStory() {
           viewport={{ once: true }}
           className="bg-white rounded-3xl shadow-xl p-8 md:p-12"
         >
-          <h3 className="text-3xl font-bold text-center text-orange-600 mb-8">
+          <h3 className="text-3xl font-bold text-center text-[#D4766A] mb-8">
             Fun Family Facts
           </h3>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-pink-600 mb-2">3</div>
+              <div className="text-4xl font-bold text-[#8B6F47] mb-2">3</div>
               <p className="text-gray-600">Years Together</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">
+              <div className="text-4xl font-bold text-[#D4766A] mb-2">
                 1000+
               </div>
               <p className="text-gray-600">Naps Taken</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-orange-600 mb-2">∞</div>
+              <div className="text-4xl font-bold text-[#D4766A] mb-2">∞</div>
               <p className="text-gray-600">Love Shared</p>
             </div>
           </div>

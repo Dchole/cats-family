@@ -68,7 +68,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-7xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-7xl md:text-8xl font-bold mb-6 text-[#D4766A]">
               Welcome to the
               <br />
               Feline Squad
@@ -93,7 +93,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-orange-400 to-pink-500 text-white px-10 py-5 rounded-full text-xl font-semibold shadow-lg hover:shadow-2xl transition-shadow inline-flex items-center gap-3 group"
+                className="bg-[#D4766A] text-white px-10 py-5 rounded-full text-xl font-semibold shadow-lg hover:bg-[#C86A5D] hover:shadow-2xl transition-all inline-flex items-center gap-3 group"
               >
                 Meet the Cats
                 <motion.div
@@ -126,14 +126,14 @@ export default function Home() {
       <AboutStory />
 
       {/* Featured Cats Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-transparent to-orange-50">
+      <section className="py-20 px-6 bg-[#F5F1EA]">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, rotate: -5 }}
             whileInView={{ opacity: 1, rotate: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-            className="text-5xl md:text-6xl font-bold text-center mb-16 text-orange-600"
+            className="text-5xl md:text-6xl font-bold text-center mb-16 text-[#D4766A]"
           >
             Our Adorable Residents
           </motion.h2>
@@ -154,7 +154,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-orange-400 to-pink-500 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-shadow inline-flex items-center gap-2"
+                className="bg-[#8B6F47] text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-[#7A5F3C] hover:shadow-xl transition-all inline-flex items-center gap-2"
               >
                 View All Cats
                 <ArrowRight size={20} />
@@ -165,13 +165,13 @@ export default function Home() {
       </section>
 
       {/* Fun Stats Section */}
-      <section className="py-20 px-6 bg-orange-50">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
           <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-6xl font-bold text-center mb-16 text-pink-600"
+            className="text-5xl md:text-6xl font-bold text-center mb-16 text-[#8B6F47]"
           >
             Today's Feline Stats
           </motion.h2>
@@ -207,7 +207,7 @@ export default function Home() {
       </section>
 
       {/* Quote Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-orange-50 to-pink-50">
+      <section className="py-20 px-6 bg-[#F5F1EA]">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}

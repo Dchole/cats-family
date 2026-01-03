@@ -64,7 +64,7 @@ export default function MouseTrailPaws() {
           >
             <PawPrint
               size={24}
-              className="text-orange-400"
+              className="text-[#D4766A]"
               fill="currentColor"
             />
           </motion.div>

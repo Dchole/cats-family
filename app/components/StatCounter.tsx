@@ -36,17 +36,17 @@ export default function StatCounter({
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow border-2 border-orange-100"
+      className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow border-2 border-[#8B9A8B]/20"
     >
       <motion.div
         animate={{ rotate: [0, 10, -10, 0] }}
         transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-        className="text-pink-500"
+        className="text-[#D4766A]"
       >
         <Icon size={40} />
       </motion.div>
 
-      <div className="text-4xl font-bold text-orange-600">
+      <div className="text-4xl font-bold text-[#D4766A]">
         <motion.span>{rounded}</motion.span>
         {suffix}
       </div>
