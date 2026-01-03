@@ -33,6 +33,7 @@ export default function DecorativeCatCard({
           className="absolute top-4 right-4 text-[#8B6F47] z-10"
           animate={{ rotate: [0, 10, 0, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
+          aria-hidden="true"
         >
           <Sparkles size={24} />
         </motion.div>
@@ -45,7 +46,7 @@ export default function DecorativeCatCard({
         >
           <Image
             src={cat.image}
-            alt={cat.name}
+            alt={`${cat.name}, a ${cat.breed} cat`}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 400px"

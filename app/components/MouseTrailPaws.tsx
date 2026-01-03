@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PawPrint } from "lucide-react";
+
+const MAX_PAWS = 20;
+const PAW_LIFETIME = 2000;
 
 interface PawTrail {
   id: number;
@@ -13,30 +16,45 @@ interface PawTrail {
 
 export default function MouseTrailPaws() {
   const [pawTrails, setPawTrails] = useState<PawTrail[]>([]);
+  const idCounter = useRef(0);
+  const timeoutRefs = useRef<Map<number, NodeJS.Timeout>>(new Map());
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
+      const pawId = ++idCounter.current;
       const newPaw: PawTrail = {
-        id: Date.now(),
+        id: pawId,
         x: e.clientX,
         y: e.clientY,
         rotation: Math.random() * 360
       };
 
       setPawTrails(prev => {
-        // Keep only last 20 paws for performance
-        const updated = [...prev, newPaw].slice(-20);
+        // Keep only last MAX_PAWS for performance
+        const updated = [...prev, newPaw].slice(-MAX_PAWS);
         return updated;
       });
 
       // Remove this paw after animation completes
-      setTimeout(() => {
-        setPawTrails(prev => prev.filter(p => p.id !== newPaw.id));
-      }, 2000);
+      const timeout = setTimeout(() => {
+        setPawTrails(prev => prev.filter(p => p.id !== pawId));
+        timeoutRefs.current.delete(pawId);
+      }, PAW_LIFETIME);
+
+      timeoutRefs.current.set(pawId, timeout);
     };
 
     window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
+
+    // Cleanup function
+    const cleanup = () => {
+      window.removeEventListener("click", handleClick);
+      // Clear all pending timeouts on unmount
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current.clear();
+    };
+
+    return cleanup;
   }, []);
 
   return (

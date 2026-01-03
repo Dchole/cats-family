@@ -10,12 +10,15 @@ import { cats } from "@/lib/cats-data";
 import Image from "next/image";
 import Link from "next/link";
 
+const DEFAULT_AGE_MIN = 0;
+const DEFAULT_AGE_MAX = 10;
+
 export default function CatsPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<"tree" | "grid">("tree");
   const [filters, setFilters] = useState({
-    ageMin: 0,
-    ageMax: 10,
+    ageMin: DEFAULT_AGE_MIN,
+    ageMax: DEFAULT_AGE_MAX,
     gender: "all" as "all" | "male" | "female",
     color: "all",
     parent: "all",

@@ -23,12 +23,16 @@ export default function CatCard({ cat, index }: CatCardProps) {
         transition: { duration: 0.3 }
       }}
     >
-      <Link href={`/cats/${cat.id}`}>
+      <Link
+        href={`/cats/${cat.id}`}
+        aria-label={`View details about ${cat.name}`}
+      >
         <div className="relative bg-white rounded-3xl shadow-lg overflow-hidden border-4 border-[#8B9A8B]/30 hover:border-[#D4766A] transition-colors cursor-pointer group">
           <motion.div
             className="absolute top-4 right-4 text-[#8B6F47] z-10"
             animate={{ rotate: [0, 10, 0, -10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
+            aria-hidden="true"
           >
             <Sparkles size={24} />
           </motion.div>
@@ -37,7 +41,7 @@ export default function CatCard({ cat, index }: CatCardProps) {
           <div className="relative w-full aspect-square overflow-hidden bg-[#F5F1EA]">
             <Image
               src={cat.image}
-              alt={cat.name}
+              alt={`${cat.name}, a ${cat.age} year old ${cat.breed} cat`}
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"

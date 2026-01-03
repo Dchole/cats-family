@@ -29,6 +29,14 @@ const CARD_SPACING = CARD_WIDTH + CARD_GAP;
 const MOBILE_CARD_WIDTH = 100; // Smaller for mobile
 const MOBILE_CARD_GAP = 8; // Tighter gap on mobile
 const MOBILE_CARD_SPACING = MOBILE_CARD_WIDTH + MOBILE_CARD_GAP;
+const MOBILE_BREAKPOINT = 768;
+const DESKTOP_CARD_HEIGHT = 190;
+const MOBILE_CARD_HEIGHT_WITH_BADGE = 80;
+const MOBILE_CARD_HEIGHT_NO_BADGE = 65;
+const MOBILE_LEVEL_HEIGHT = 115;
+const DESKTOP_LEVEL_HEIGHT = 260;
+const MOBILE_GAP_FROM_CARD = 12;
+const DESKTOP_GAP_FROM_CARD = 8;
 
 export default function FamilyTree({
   matchingCats,
@@ -39,7 +47,7 @@ export default function FamilyTree({
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
 
     checkMobile();
@@ -152,9 +160,11 @@ export default function FamilyTree({
 
   // Get actual card height based on content
   const getCardHeight = (cat: Cat): number => {
-    if (!isMobile) return 190; // Desktop height is consistent
+    if (!isMobile) return DESKTOP_CARD_HEIGHT;
     // Mobile: cards with "Available" are taller
-    return cat.availableForAdoption ? 80 : 65;
+    return cat.availableForAdoption
+      ? MOBILE_CARD_HEIGHT_WITH_BADGE
+      : MOBILE_CARD_HEIGHT_NO_BADGE;
   };
 
   // Flatten tree into levels for rendering
@@ -344,7 +354,7 @@ export default function FamilyTree({
 
     // Use mobile dimensions and card renderer on small screens
     const cardWidth = isMobile ? MOBILE_CARD_WIDTH : CARD_WIDTH;
-    const levelHeight = isMobile ? 115 : 260; // Shorter vertical lines on mobile
+    const levelHeight = isMobile ? MOBILE_LEVEL_HEIGHT : DESKTOP_LEVEL_HEIGHT;
 
     // Calculate positions
     const positionedTree = calculatePositions(rootNode);
@@ -404,7 +414,9 @@ export default function FamilyTree({
               const actualParentCardHeight = getCardHeight(node.cat);
               const parentBottomY =
                 level * levelHeight + actualParentCardHeight;
-              const gapFromCard = isMobile ? 12 : 8; // Larger gap for mobile to clear badge
+              const gapFromCard = isMobile
+                ? MOBILE_GAP_FROM_CARD
+                : DESKTOP_GAP_FROM_CARD;
               const lineStartY = parentBottomY + gapFromCard; // Add gap so line doesn't touch card
 
               const childTopY = (level + 1) * levelHeight;

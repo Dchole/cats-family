@@ -15,6 +15,8 @@ import AboutStory from "./components/AboutStory";
 import ContactAdoption from "./components/ContactAdoption";
 import { cats } from "@/lib/cats-data";
 
+const SCROLL_DELAY = 100;
+
 export default function Home() {
   // Select a random cat for Cat of the Day (or use day-based rotation)
   const todaysCat = cats[new Date().getDate() % cats.length];
@@ -24,13 +26,15 @@ export default function Home() {
     const hash = window.location.hash;
     if (hash) {
       // Small delay to ensure DOM is ready
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         const id = hash.replace("#", "") + "-section";
         const element = document.getElementById(id);
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }, 100);
+      }, SCROLL_DELAY);
+
+      return () => clearTimeout(timeoutId);
     }
   }, []);
 
