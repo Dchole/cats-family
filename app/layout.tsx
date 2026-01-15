@@ -19,7 +19,15 @@ const fredoka = Fredoka({
 
 export const metadata: Metadata = {
   title: "Cats Family - Meet Our Feline Squad",
-  description: "Welcome to our playful cat family website!"
+  description:
+    "Welcome to our playful cat family website! Meet Whiskers, Luna, Shadow and their adorable family members.",
+  keywords: "cats, feline, cat family, pet adoption, cat care",
+  authors: [{ name: "Feline Squad" }],
+  openGraph: {
+    title: "Cats Family - Meet Our Feline Squad",
+    description: "Welcome to our playful cat family website!",
+    type: "website"
+  }
 };
 
 export default function RootLayout({

@@ -105,11 +105,13 @@ export default function Footer() {
                   type="email"
                   placeholder="your@email.com"
                   className="flex-1 px-4 py-2 rounded-full border-2 border-[#8B9A8B]/30 focus:border-[#D4766A] focus:outline-none text-sm"
+                  aria-label="Email address for newsletter"
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-[#D4766A] text-white px-6 py-2 rounded-full font-medium shadow-md hover:bg-[#C86A5D] hover:shadow-lg transition-all"
+                  aria-label="Subscribe to newsletter"
                 >
                   <Mail size={18} />
                 </motion.button>

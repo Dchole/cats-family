@@ -271,7 +271,10 @@ function StoryCard({
                     loop
                     muted
                     playsInline
-                  />
+                    aria-label={`Video: ${adventure.title}`}
+                  >
+                    <track kind="captions" />
+                  </video>
                 )}
               </motion.div>
             </AnimatePresence>
@@ -333,6 +336,7 @@ function StoryCard({
                   closeFullscreen();
                 }}
                 className="absolute top-4 right-4 z-30 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
+                aria-label="Close fullscreen view"
               >
                 ✕
               </button>
@@ -347,6 +351,10 @@ function StoryCard({
                       goToSlide(idx);
                     }}
                     className="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden"
+                    aria-label={`Go to slide ${idx + 1} of ${
+                      adventure.media.length
+                    }`}
+                    aria-current={currentSlide === idx ? "true" : "false"}
                   >
                     <motion.div
                       className="h-full bg-white rounded-full"
@@ -391,7 +399,10 @@ function StoryCard({
                       loop
                       muted
                       playsInline
-                    />
+                      aria-label={`Video: ${adventure.title}`}
+                    >
+                      <track kind="captions" />
+                    </video>
                   )}
                 </motion.div>
               </AnimatePresence>

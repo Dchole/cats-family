@@ -184,9 +184,10 @@ export default function Navigation() {
           height: mobileMenuOpen ? "auto" : 0,
           opacity: mobileMenuOpen ? 1 : 0
         }}
-        className="fixed top-[72px] left-0 right-0 bg-[#FAF8F5]/95 backdrop-blur-sm overflow-hidden z-40 md:hidden border-b border-[#8B9A8B]/30"
+        className="fixed top-18 left-0 right-0 bg-[#FAF8F5]/95 backdrop-blur-sm overflow-hidden z-40 md:hidden border-b border-[#8B9A8B]/30"
         role="menu"
         aria-hidden={!mobileMenuOpen}
+        style={{ visibility: mobileMenuOpen ? "visible" : "hidden" }}
       >
         <div className="px-6 py-6 space-y-4">
           {navLinks.map(link => {

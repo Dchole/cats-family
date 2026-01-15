@@ -150,6 +150,10 @@ export default function CatsPage() {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center gap-2 bg-[#D4766A] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-[#C86A5D] hover:shadow-xl transition-all"
+              aria-label={
+                showFilters ? "Hide filter options" : "Show filter options"
+              }
+              aria-expanded={showFilters}
             >
               <Filter size={20} />
               {showFilters ? "Hide Filters" : "Show Filters"}
@@ -169,6 +173,8 @@ export default function CatsPage() {
                     ? "bg-[#D4766A] text-white shadow-md"
                     : "text-gray-600 hover:text-[#D4766A]"
                 }`}
+                aria-label="Switch to tree view"
+                aria-pressed={viewMode === "tree"}
               >
                 <GitBranch size={20} />
                 Tree
@@ -180,6 +186,8 @@ export default function CatsPage() {
                     ? "bg-[#D4766A] text-white shadow-md"
                     : "text-gray-600 hover:text-[#D4766A]"
                 }`}
+                aria-label="Switch to grid view"
+                aria-pressed={viewMode === "grid"}
               >
                 <LayoutGrid size={20} />
                 Grid
@@ -205,6 +213,7 @@ export default function CatsPage() {
                       <button
                         onClick={resetFilters}
                         className="flex items-center gap-2 bg-[#8B6F47] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#7A5F3C] hover:shadow-lg transition-all"
+                        aria-label="Reset all filters"
                       >
                         <X size={18} />
                         Reset All
