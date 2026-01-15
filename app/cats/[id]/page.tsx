@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,6 +28,29 @@ export default function CatDetailPage({
   const { id } = use(params);
   const cat = cats.find(c => c.id === id);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const modalCloseButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  // Handle modal focus management
+  useEffect(() => {
+    if (isImageZoomed) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      modalCloseButtonRef.current?.focus();
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus();
+    }
+  }, [isImageZoomed]);
+
+  // Handle escape key for modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isImageZoomed) {
+        setIsImageZoomed(false);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isImageZoomed]);
 
   if (!cat) {
     notFound();
@@ -71,7 +94,7 @@ export default function CatDetailPage({
     <div className="min-h-screen bg-[#F5F1EA]">
       <Navigation />
 
-      <main className="pt-28 pb-20 px-6">
+      <main id="main-content" className="pt-28 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
           {/* Breadcrumbs */}
           <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
@@ -109,8 +132,17 @@ export default function CatDetailPage({
               className="relative"
             >
               <div
+                role="button"
+                tabIndex={0}
                 className="relative h-96 md:h-125 rounded-3xl overflow-hidden shadow-2xl cursor-zoom-in group"
                 onClick={() => setIsImageZoomed(true)}
+                onKeyDown={e => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setIsImageZoomed(true);
+                  }
+                }}
+                aria-label={`View larger image of ${cat.name}`}
               >
                 <Image
                   src={cat.image}
@@ -501,10 +533,15 @@ export default function CatDetailPage({
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
             onClick={() => setIsImageZoomed(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Enlarged image of ${cat.name}`}
           >
             <button
-              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+              ref={modalCloseButtonRef}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded-lg p-2"
               onClick={() => setIsImageZoomed(false)}
+              aria-label="Close image zoom"
             >
               <X size={32} />
             </button>
@@ -517,14 +554,17 @@ export default function CatDetailPage({
             >
               <Image
                 src={cat.image}
-                alt={cat.name}
+                alt={`Enlarged view of ${cat.name}`}
                 fill
                 className="object-contain"
                 priority
               />
             </motion.div>
-            <p className="absolute bottom-8 text-white text-sm">
-              Click anywhere to close
+            <p
+              className="absolute bottom-8 text-white text-sm"
+              aria-live="polite"
+            >
+              Press Escape or click anywhere to close
             </p>
           </motion.div>
         )}

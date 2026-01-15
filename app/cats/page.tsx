@@ -125,7 +125,7 @@ export default function CatsPage() {
     <div className="min-h-screen bg-[#FAF8F5]">
       <Navigation />
 
-      <main className="pt-28 pb-20 px-2 md:px-6">
+      <main id="main-content" className="pt-28 pb-20 px-2 md:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div

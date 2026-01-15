@@ -71,11 +71,13 @@ export default function Navigation() {
           borderBottomColor: borderColor
         }}
         className="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-sm"
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/">
+            <Link href="/" aria-label="Go to homepage - Feline Squad">
               <div
                 className="flex items-center gap-2 cursor-pointer"
                 onMouseEnter={() => setLogoHovered(true)}
@@ -108,7 +110,12 @@ export default function Navigation() {
                 const isActive = pathname === link.href;
 
                 return (
-                  <Link key={link.name} href={link.href} onClick={link.onClick}>
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={link.onClick}
+                    aria-current={isActive ? "page" : undefined}
+                  >
                     <motion.div
                       initial={{ opacity: 0, y: -20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -153,9 +160,15 @@ export default function Navigation() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-gray-700 hover:text-[#D4766A] transition-colors"
+              onKeyDown={e => {
+                if (e.key === "Escape" && mobileMenuOpen) {
+                  setMobileMenuOpen(false);
+                }
+              }}
+              className="md:hidden text-gray-700 hover:text-[#D4766A] transition-colors focus:outline-none focus:ring-2 focus:ring-[#D4766A] focus:ring-offset-2 rounded-lg p-2"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -165,31 +178,39 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       <motion.div
+        id="mobile-menu"
         initial={false}
         animate={{
           height: mobileMenuOpen ? "auto" : 0,
           opacity: mobileMenuOpen ? 1 : 0
         }}
         className="fixed top-[72px] left-0 right-0 bg-[#FAF8F5]/95 backdrop-blur-sm overflow-hidden z-40 md:hidden border-b border-[#8B9A8B]/30"
+        role="menu"
+        aria-hidden={!mobileMenuOpen}
       >
         <div className="px-6 py-6 space-y-4">
-          {navLinks.map(link => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={e => {
-                if (link.onClick) link.onClick(e);
-                setMobileMenuOpen(false);
-              }}
-            >
-              <motion.div
-                whileTap={{ scale: 0.95 }}
-                className="block text-lg font-medium text-gray-700 hover:text-[#D4766A] transition-colors py-2"
+          {navLinks.map(link => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={e => {
+                  if (link.onClick) link.onClick(e);
+                  setMobileMenuOpen(false);
+                }}
+                aria-current={isActive ? "page" : undefined}
+                role="menuitem"
               >
-                {link.name}
-              </motion.div>
-            </Link>
-          ))}
+                <motion.div
+                  whileTap={{ scale: 0.95 }}
+                  className="block text-lg font-medium text-gray-700 hover:text-[#D4766A] transition-colors py-2"
+                >
+                  {link.name}
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
       </motion.div>
     </>

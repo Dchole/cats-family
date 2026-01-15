@@ -3,6 +3,7 @@ import { Quicksand, Fredoka } from "next/font/google";
 import "./globals.css";
 import FloatingPaws from "./components/FloatingPaws";
 import MouseTrailPaws from "./components/MouseTrailPaws";
+import SkipToMain from "./components/SkipToMain";
 
 const quicksand = Quicksand({
   variable: "--font-quicksand",
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${quicksand.variable} ${fredoka.variable} antialiased`}>
+        <SkipToMain />
         <FloatingPaws />
         <MouseTrailPaws />
         {children}

@@ -43,7 +43,10 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-start justify-center px-6 overflow-hidden pt-32">
+      <section
+        id="main-content"
+        className="relative min-h-screen flex items-start justify-center px-6 overflow-hidden pt-32"
+      >
         {/* Left Cat Card - Decorative */}
         <motion.div
           initial={{ opacity: 0, x: -100, rotate: -15 }}
