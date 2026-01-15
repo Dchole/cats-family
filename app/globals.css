@@ -67,6 +67,11 @@ h6 {
 }
 
 /* Focus styles for buttons and links */
+
+button {
+  cursor: pointer;
+}
+
 button:focus-visible,
 a:focus-visible {
   outline: 3px solid #d4766a;
