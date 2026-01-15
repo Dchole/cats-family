@@ -238,14 +238,14 @@ export default function CatDetailPage({
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
                     Parents
                   </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     {mother && (
                       <Link href={`/cats/${mother.id}`}>
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-4"
+                          className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-md md:shadow-lg hover:shadow-xl transition-all flex items-center gap-3 md:gap-4"
                         >
-                          <div className="relative w-20 h-20 rounded-xl overflow-hidden">
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg md:rounded-xl overflow-hidden">
                             <Image
                               src={mother.image}
                               alt={mother.name}
@@ -266,9 +266,9 @@ export default function CatDetailPage({
                       <Link href={`/cats/${father.id}`}>
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all flex items-center gap-4"
+                          className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 shadow-md md:shadow-lg hover:shadow-xl transition-all flex items-center gap-3 md:gap-4"
                         >
-                          <div className="relative w-20 h-20 rounded-xl overflow-hidden">
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-lg md:rounded-xl overflow-hidden">
                             <Image
                               src={father.image}
                               alt={father.name}
@@ -295,14 +295,14 @@ export default function CatDetailPage({
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
                     Siblings ({siblings.length})
                   </h3>
-                  <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {siblings.map(sibling => (
                       <Link key={sibling.id} href={`/cats/${sibling.id}`}>
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
+                          className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md md:shadow-lg hover:shadow-xl transition-all"
                         >
-                          <div className="relative h-32">
+                          <div className="relative h-24 md:h-32">
                             <Image
                               src={sibling.image}
                               alt={sibling.name}
@@ -310,7 +310,7 @@ export default function CatDetailPage({
                               className="object-cover"
                             />
                           </div>
-                          <div className="p-3">
+                          <div className="p-2 md:p-3">
                             <p className="font-bold text-gray-800">
                               {sibling.name}
                             </p>
@@ -328,14 +328,14 @@ export default function CatDetailPage({
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
                     Children ({children.length})
                   </h3>
-                  <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {children.map(child => (
                       <Link key={child.id} href={`/cats/${child.id}`}>
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all"
+                          className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md md:shadow-lg hover:shadow-xl transition-all"
                         >
-                          <div className="relative h-32">
+                          <div className="relative h-24 md:h-32">
                             <Image
                               src={child.image}
                               alt={child.name}
@@ -343,7 +343,7 @@ export default function CatDetailPage({
                               className="object-cover"
                             />
                           </div>
-                          <div className="p-3">
+                          <div className="p-2 md:p-3">
                             <p className="font-bold text-gray-800">
                               {child.name}
                             </p>
