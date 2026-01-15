@@ -1,7 +1,7 @@
 "use client";
 
-import { use } from "react";
-import { motion } from "framer-motion";
+import { use, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,7 +10,10 @@ import {
   Calendar,
   Palette,
   Sparkles,
-  Home
+  Home,
+  ChevronRight,
+  X,
+  ZoomIn
 } from "lucide-react";
 import Navigation from "@/app/components/Navigation";
 import Footer from "@/app/components/Footer";
@@ -24,6 +27,7 @@ export default function CatDetailPage({
 }) {
   const { id } = use(params);
   const cat = cats.find(c => c.id === id);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
 
   if (!cat) {
     notFound();
@@ -42,12 +46,49 @@ export default function CatDetailPage({
     c => c.motherId === cat.id || c.fatherId === cat.id
   );
 
+  // Find similar cats based on breed, personality, or age
+  const similarCats = cats
+    .filter(c => c.id !== cat.id)
+    .map(c => {
+      let score = 0;
+      // Same breed gets high score
+      if (c.breed === cat.breed) score += 3;
+      // Similar age (within 1 year)
+      if (Math.abs(c.age - cat.age) <= 1) score += 2;
+      // Shared personality traits
+      const sharedTraits = c.personality.filter(trait =>
+        cat.personality.includes(trait)
+      ).length;
+      score += sharedTraits;
+      return { cat: c, score };
+    })
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .map(item => item.cat);
+
   return (
     <div className="min-h-screen bg-[#F5F1EA]">
       <Navigation />
 
       <main className="pt-28 pb-20 px-6">
         <div className="max-w-6xl mx-auto">
+          {/* Breadcrumbs */}
+          <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+            <Link href="/" className="hover:text-[#D4766A] transition-colors">
+              Home
+            </Link>
+            <ChevronRight size={16} />
+            <Link
+              href="/cats"
+              className="hover:text-[#D4766A] transition-colors"
+            >
+              Family Tree
+            </Link>
+            <ChevronRight size={16} />
+            <span className="text-[#D4766A] font-semibold">{cat.name}</span>
+          </div>
+
           {/* Back Button */}
           <Link href="/cats">
             <motion.button
@@ -67,14 +108,23 @@ export default function CatDetailPage({
               animate={{ opacity: 1, x: 0 }}
               className="relative"
             >
-              <div className="relative h-96 md:h-125 rounded-3xl overflow-hidden shadow-2xl">
+              <div
+                className="relative h-96 md:h-125 rounded-3xl overflow-hidden shadow-2xl cursor-zoom-in group"
+                onClick={() => setIsImageZoomed(true)}
+              >
                 <Image
                   src={cat.image}
                   alt={cat.name}
                   fill
-                  className="object-cover"
+                  className="object-cover transition-transform group-hover:scale-105"
                   priority
                 />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                  <ZoomIn
+                    className="text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    size={48}
+                  />
+                </div>
               </div>
               {cat.availableForAdoption && (
                 <motion.div
@@ -357,6 +407,62 @@ export default function CatDetailPage({
             </motion.div>
           )}
 
+          {/* You Might Also Like */}
+          {similarCats.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="mb-12"
+            >
+              <h2 className="text-3xl font-bold text-[#D4766A] mb-6">
+                You Might Also Like
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {similarCats.map(similarCat => (
+                  <Link key={similarCat.id} href={`/cats/${similarCat.id}`}>
+                    <motion.div
+                      whileHover={{ y: -5 }}
+                      className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md md:shadow-lg hover:shadow-xl transition-all"
+                    >
+                      <div className="relative h-32 md:h-40">
+                        <Image
+                          src={similarCat.image}
+                          alt={similarCat.name}
+                          fill
+                          className="object-cover"
+                        />
+                        {similarCat.availableForAdoption && (
+                          <div className="absolute top-2 right-2 bg-[#D4766A] text-white text-xs px-2 py-1 rounded-full font-semibold">
+                            Available
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-3">
+                        <p className="font-bold text-gray-800 mb-1">
+                          {similarCat.name}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {similarCat.breed}
+                        </p>
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {similarCat.personality.slice(0, 2).map(trait => (
+                            <span
+                              key={trait}
+                              className="text-xs bg-[#D4766A]/10 text-[#D4766A] px-2 py-0.5 rounded-full"
+                            >
+                              {trait}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
           {/* Adoption CTA */}
           {cat.availableForAdoption && (
             <motion.div
@@ -385,6 +491,44 @@ export default function CatDetailPage({
           )}
         </div>
       </main>
+
+      {/* Image Zoom Modal */}
+      <AnimatePresence>
+        {isImageZoomed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            onClick={() => setIsImageZoomed(false)}
+          >
+            <button
+              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+              onClick={() => setIsImageZoomed(false)}
+            >
+              <X size={32} />
+            </button>
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              className="relative w-full max-w-4xl aspect-square"
+              onClick={e => e.stopPropagation()}
+            >
+              <Image
+                src={cat.image}
+                alt={cat.name}
+                fill
+                className="object-contain"
+                priority
+              />
+            </motion.div>
+            <p className="absolute bottom-8 text-white text-sm">
+              Click anywhere to close
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </div>
